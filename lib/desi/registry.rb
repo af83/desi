@@ -1,7 +1,6 @@
 # encoding: utf-8
 
 require "desi/http_client"
-require "httpclient"
 
 module Desi
   class Registry
