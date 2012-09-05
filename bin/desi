@@ -1,6 +1,7 @@
 #!/usr/bin/env ruby
 # vim: se ft=ruby :
 
+require 'desi'
 require 'desi/runner'
 
 Desi::Runner.start

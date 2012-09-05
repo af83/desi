@@ -1,5 +1,9 @@
 require "desi/version"
 
 module Desi
-  # Your code goes here...
+  autoload :Downloader,   'desi/downloader'
+  autoload :HttpClient,   'desi/http_client'
+  autoload :LocalInstall, 'desi/local_install'
+  autoload :Registry,     'desi/registry'
 end
+
