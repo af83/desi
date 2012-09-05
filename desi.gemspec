@@ -11,7 +11,6 @@ Gem::Specification.new do |gem|
   gem.version       = Desi::VERSION
 
   gem.add_dependency "boson"
-  gem.add_dependency "httpclient"
 
   gem.files         = `git ls-files`.split($\)
   gem.executables   = gem.files.grep(%r{^bin/}).map{ |f| File.basename(f) }
