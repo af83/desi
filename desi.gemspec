@@ -5,9 +5,10 @@ Gem::Specification.new do |gem|
   gem.name          = "desi"
   gem.authors       = ["Dominique Rose-Rosette"]
   gem.email         = ["drose-rosette@af83.com"]
-  gem.description   = %q{TODO: Write a gem description}
-  gem.summary       = %q{TODO: Write a gem summary}
-  gem.homepage      = ""
+  gem.summary       = %q{A developer tool to quickly set up an Elastic Search local install.}
+  gem.description   = %q{Desi (Developper ElasticSearch Installer) is very simple tool to quickly set up
+an Elastic Search local install for development purposes.}
+  gem.homepage      = "https://github.com/AF83/desi/"
   gem.version       = Desi::VERSION
 
   gem.add_dependency "boson"
