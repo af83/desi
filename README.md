@@ -30,6 +30,8 @@ Or install it yourself as:
 
 ## TODO
 
+  * add tests, dammit!
+
   * `desi upgrade` (Upgrade to latest version and migrate data)
   * `desi switch VERSION` (Switch currently active ES version to VERSION)
   * index management (list, create, delete ES indices)
