@@ -6,5 +6,6 @@ module Desi
   autoload :LocalInstall,     'desi/local_install'
   autoload :Registry,         'desi/registry'
   autoload :ReleaseInstaller, 'desi/release_installer'
+  autoload :ProcessManager,   'desi/process_manager'
 end
 

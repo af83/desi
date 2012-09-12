@@ -16,7 +16,7 @@ module Desi
         @http.use_ssl = true
         @http.verify_mode = ::OpenSSL::SSL::VERIFY_PEER
       when 'http'
-        @http = ::Net::HTTP.new(@uri.host, 80)
+        @http = ::Net::HTTP.new(@uri.host, @uri.port)
       else
         raise ArgumentError, "Won't process scheme #{@uri.scheme}"
       end

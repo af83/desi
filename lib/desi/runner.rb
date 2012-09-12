@@ -37,10 +37,12 @@ module Desi
 
     desc "Start or restart Elastic Search"
     def start
+      Desi::ProcessManager.new.start
     end
 
     desc "Stop Elastic Search"
     def stop
+      Desi::ProcessManager.new.stop
     end
 
     # desc "Upgrade to latest ElasticSearch version"

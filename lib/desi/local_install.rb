@@ -36,5 +36,8 @@ module Desi
       @workdir.join('elasticsearch.pid')
     end
 
+    def launcher
+      current_dir.join('bin', 'elasticsearch')
+    end
   end
 end
