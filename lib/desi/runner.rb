@@ -61,7 +61,8 @@ module Desi
     end
 
     desc "Show current status"
-    def status
+    verbosity_option
+    def status(options = {})
       Desi::ProcessManager.new.status
     end
 
