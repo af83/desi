@@ -19,10 +19,19 @@ module Desi
       end
     end
 
-    desc "List all available ElasticSearch releases"
-    def releases
-      Desi::Upstream.new.releases.each do |v|
-        puts " * #{v.name} -- #{v.description} (#{v.release_date})"
+    desc "List latest ElasticSearch releases (latest 5 by default)"
+    verbosity_option
+    option :limit, type: :numeric, desc: "Number of releases to show (0 for all)", default: 5
+    def releases(options = {})
+      limit = options[:limit]
+      releases = Desi::Upstream.new.releases.each_with_index.
+        take_while {|rel, i| i < limit || limit == 0 }.map(&:first)
+
+      if quiet?(options)
+        releases
+      else
+        puts "Here are #{limit == 0 ? 'all the' : "the #{limit} latest"} releases"
+        releases.each {|rel| puts " * #{rel.name} (#{rel.release_date})" }
       end
     end
 
