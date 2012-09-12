@@ -26,8 +26,8 @@ Or install it yourself as:
     $ desi list                # List locally installed ElasticSearch versions
     $ desi list_all            # List all available Elastic Search versions
     $ desi install [VERSION]   # Install a specific version (latest by default)
-    $ desi start               # Start or restart Elastic Search
-    $ desi stop                # Stop Elastic Search
+    $ desi start               # Start or restart a local 1-node cluster
+    $ desi stop                # Stop cluster
     $ desi status              # Show running cluster info
 
 ## TODO
