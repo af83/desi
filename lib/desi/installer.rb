@@ -6,9 +6,10 @@ require "cocaine"
 module Desi
   class Installer
 
-    def initialize(archive, destination_dir = nil)
+    def initialize(archive, opts = {})
+      @verbose = opts[:verbose]
       @archive = archive.to_s
-      @local_install = Desi::LocalInstall.new(destination_dir)
+      @local_install = Desi::LocalInstall.new(opts[:destination_dir])
     end
 
     def install!
@@ -23,7 +24,7 @@ module Desi
 
     def install_config_file
       unless original_config_backup.exist?
-        puts " * Installing custom config file"
+        puts " * Installing custom config file" if @verbose
         FileUtils.mv config_file, original_config_backup
         FileUtils.cp our_config_file, config_file
       end
@@ -35,7 +36,7 @@ module Desi
         raise "Mmmm!! #{@local_install.current_dir} is not a symlink!"
       end
 
-      puts " * Updating #{@local_install.current_dir} symlink"
+      puts " * Updating #{@local_install.current_dir} symlink" if @verbose
       FileUtils.remove(@local_install.current_dir)
       FileUtils.ln_sf(release_dir, @local_install.current_dir)
     end

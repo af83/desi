@@ -8,10 +8,11 @@ require "uri"
 module Desi
   class Downloader
 
-    def initialize(destination_dir = nil, host = 'http://cloud.github.com/')
-      @destination_dir = Pathname(destination_dir || Desi::LocalInstall.new)
-      @host = URI(host)
+    def initialize(opts = {})
+      @destination_dir = Pathname(opts.fetch(:destination_dir, Desi::LocalInstall.new))
+      @host = URI(opts.fetch(:host, 'http://cloud.github.com/'))
       @client = Desi::HttpClient.new(@host)
+      @verbose = opts[:verbose]
     end
 
     def download!(version, opts = {})
@@ -20,7 +21,7 @@ module Desi
 
       raise "ERROR: File #{destination_name} already present!" if destination_name.exist?
 
-      puts "  * fetching release #{version} from #{@host + path}"
+      puts "  * fetching release #{version} from #{@host + path}" if @verbose
 
       File.open(destination_name, 'w') {|f| f << @client.get(path).body }
 

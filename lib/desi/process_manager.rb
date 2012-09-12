@@ -7,24 +7,25 @@ require "ostruct"
 module Desi
   class ProcessManager
 
-    def initialize
+    def initialize(opts = {})
+      @verbose = opts[:verbose]
       @local_install = LocalInstall.new
       @client = Desi::HttpClient.new('http://localhost:9200/')
     end
 
     def start
-      puts " * Starting cluster"
+      puts " * Starting cluster" if @verbose
       stop if started?
       start_cluster
-      puts " * Elastic Search #{running_version} started"
+      puts " * Elastic Search #{running_version} started" if @verbose
     end
 
     def stop
       if pid
-        puts " * Will stop instance with pid #{pid}"
+        puts " * Will stop instance with pid #{pid}" if @verbose
         stop_cluster
       else
-        puts " * No pidfile detected!. Won't stop"
+        puts " * No pidfile detected!. Won't stop" if @verbose
       end
     end
 
@@ -39,10 +40,12 @@ module Desi
 
     def status
       if version = running_version
-        puts "Elastic Search cluster '#{cluster.cluster_name}' (v#{version}) is running on #{cluster.number_of_nodes} node(s) with status #{cluster.status}"
+        msg = "OK. Elastic Search cluster '#{cluster.cluster_name}' (v#{version}) is running on #{cluster.number_of_nodes} node(s) with status #{cluster.status}"
       else
-        puts "No Elastic Search instance was found running on #{@client.uri}"
+        msg = "KO. No Elastic Search instance was found running on #{@client.uri}"
       end
+      puts msg if @verbose
+      msg
     end
 
     private
