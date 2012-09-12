@@ -12,6 +12,7 @@ an Elastic Search local install for development purposes.}
   gem.version       = Desi::VERSION
 
   gem.add_dependency "boson"
+  gem.add_dependency "cocaine"
 
   gem.files         = `git ls-files`.split($\)
   gem.executables   = gem.files.grep(%r{^bin/}).map{ |f| File.basename(f) }

@@ -1,0 +1,6 @@
+# Desi provided configuration
+# Look in elasticsearch.dist.yml for the original configuration
+
+# Let's set the host to localhost, so that we don't connect to other nearby
+# instances
+network.host: 127.0.0.1

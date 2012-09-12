@@ -20,9 +20,11 @@ module Desi
 
       raise "ERROR: File #{destination_name} already present!" if destination_name.exist?
 
-      puts "* fetching release #{version} from #{@host + path}"
+      puts "  * fetching release #{version} from #{@host + path}"
 
       File.open(destination_name, 'w') {|f| f << @client.get(path).body }
+
+      destination_name
     end
 
   end

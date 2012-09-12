@@ -20,16 +20,19 @@ module Desi
       end
     end
 
-    # option :version, :type => :string #, desc: "Version (latest stable by default)"
     desc "Install ES (to latest stable version by default)"
-    def install
-      puts " * fetching latest version"
-      release = Desi::Registry.new.latest_release
-      Desi::Downloader.new.download!(release)
-    end
+    def install(version_or_full_name = nil, options = {})
+      release = if version_or_full_name
+                  Desi::Registry.new.find_release(version_or_full_name)
+                else
+                  puts " * No release specified, will fetch latest."
+                  Desi::Registry.new.latest_release
+                end
 
-    desc "Upgrade to latest ElasticSearch version"
-    def upgrade
+      puts " * fetching release #{release}"
+      package = Desi::Downloader.new.download!(release)
+
+      puts " * #{release} installed" if Desi::ReleaseInstaller.new(package).install!
     end
 
     desc "Start or restart Elastic Search"
@@ -40,10 +43,14 @@ module Desi
     def stop
     end
 
-    desc "Switch currently active ES version to VERSION"
-    option :version, type: :string
-    def switch
-    end
+    # desc "Upgrade to latest ElasticSearch version"
+    # def upgrade
+    # end
+
+    # desc "Switch currently active ES version to VERSION"
+    # option :version, type: :string
+    # def switch
+    # end
 
   end
 end

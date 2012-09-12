@@ -26,6 +26,10 @@ module Desi
       releases.first
     end
 
+    def find_release(name)
+      releases.detect {|r| r.name == name || r.version == name }
+    end
+
     private
 
     def fetch_releases
