@@ -15,7 +15,7 @@ module Desi
 
     def start
       puts " * Starting cluster" if @verbose
-      stop if started?
+      stop if has_pid?
       start_cluster
       puts " * Elastic Search #{running_version} started" if @verbose
     end
@@ -32,10 +32,6 @@ module Desi
     def restart
       stop
       start
-    end
-
-    def started?
-      pidfile.exist?
     end
 
     def status
@@ -68,7 +64,11 @@ module Desi
     end
 
     def kill!
-      Process.kill("HUP", Integer(pid)) unless !pid || pid.empty?
+      Process.kill("HUP", Integer(pid)) if has_pid?
+    end
+
+    def has_pid?
+      pid && !pid.empty?
     end
 
     def pid
