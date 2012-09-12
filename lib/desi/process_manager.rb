@@ -15,6 +15,7 @@ module Desi
       puts " * Starting cluster"
       stop if started?
       start_cluster
+      puts " * Elastic Search #{running_version} started"
     end
 
     def stop
@@ -81,6 +82,14 @@ module Desi
         delay += step
       end
       delay < max_wait
+    end
+
+    def running_version
+      begin
+        JSON.parse(@client.get('/').body)["version"]["number"]
+      rescue
+        nil
+      end
     end
 
   end
