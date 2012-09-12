@@ -23,17 +23,17 @@ Or install it yourself as:
 
 ## Usage
 
-    $ desi list                        # List locally installed ElasticSearch versions
-    $ desi list_all                    # List all available Elastic Search versions
-    $ desi install [--version VERSION] # Install a specific version (latest by default)
-    $ desi start                       # Start or restart Elastic Search
-    $ desi stop                        # Stop Elastic Search
-    $ desi status                      # Show cluster status
+    $ desi list                # List locally installed ElasticSearch versions
+    $ desi list_all            # List all available Elastic Search versions
+    $ desi install [VERSION]   # Install a specific version (latest by default)
+    $ desi start               # Start or restart Elastic Search
+    $ desi stop                # Stop Elastic Search
+    $ desi status              # Show running cluster info
 
 ## TODO
 
-    $ desi upgrade                   # Upgrade to latest ElasticSearch version
-    $ desi switch VERSION            # Switch currently active ES version to VERSION
+    $ desi upgrade             # Upgrade to latest version and migrate data
+    $ desi switch VERSION      # Switch currently active ES version to VERSION
 
 ## Contributing
 
