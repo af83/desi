@@ -4,7 +4,7 @@ require "fileutils"
 require "cocaine"
 
 module Desi
-  class ReleaseInstaller
+  class Installer
 
     def initialize(archive, destination_dir = nil)
       @archive = archive.to_s
@@ -20,7 +20,7 @@ module Desi
     def extracted?
       !!@extracted
     end
-    
+
     def install_config_file
       unless original_config_backup.exist?
         puts " * Installing custom config file"

@@ -3,9 +3,9 @@
 require "desi/http_client"
 
 module Desi
-  class Registry
+  class Upstream
 
-    class Version < Struct.new(:name, :description, :release_date, :download_url)
+    class Release < Struct.new(:name, :description, :release_date, :download_url)
       def to_s
         self.name
       end
@@ -19,7 +19,7 @@ module Desi
       @releases ||= fetch_releases.
         select {|v| v['content_type'] == 'application/gzip' }.
         sort {|a,b| b["name"] <=> a['name'] }.
-        map {|v| Version.new(v['name'], v['description'], v['created_at'], v['html_url']) }
+        map {|v| Release.new(v['name'], v['description'], v['created_at'], v['html_url']) }
     end
 
     def latest_release
