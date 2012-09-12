@@ -5,8 +5,6 @@ an [Elastic Search](http://www.elasticsearch.org/) local install for
 development purposes. It will download and install ElasticSearch (the latest
 version by default) and let you start/stop/restart it.
 
-It's in very early stages and doesn't do much ATM.
-
 ## Installation
 
 Add this line to your application's Gemfile:
@@ -32,8 +30,10 @@ Or install it yourself as:
 
 ## TODO
 
-    $ desi upgrade             # Upgrade to latest version and migrate data
-    $ desi switch VERSION      # Switch currently active ES version to VERSION
+  * `desi upgrade` (Upgrade to latest version and migrate data)
+  * `desi switch VERSION` (Switch currently active ES version to VERSION)
+  * index management (list, create, delete ES indices)
+  * plugin management ? (list, install, remove ES plugins)
 
 ## Contributing
 
