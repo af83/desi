@@ -53,13 +53,37 @@ module Desi
       msg
     end
 
+    def has_pid?
+      pid && !pid.empty?
+    end
+
+    def pid
+      @pid ||= File.read(pidfile) if pidfile.exist?
+    end
+
+    def running_version
+      begin
+        JSON.parse(@client.get('/').body)["version"]["number"]
+      rescue
+        nil
+      end
+    end
+
+    def wait_until_cluster_becomes_ready(max_wait = 10, step = 0.5)
+      wait_for(max_wait, step) { cluster_ready? }
+    end
+
+    def wait_until_cluster_is_down(max_wait = 5, step = 0.3)
+      wait_for(max_wait, step) { !cluster_ready? }
+    end
+
     private
 
     def start_cluster
       line = Cocaine::CommandLine.new(@local_install.launcher.to_s, "-p :pidfile", pidfile: pidfile.to_s)
       line.run
 
-      unless (wait_for() { cluster_ready? })
+      unless wait_until_cluster_becomes_ready
         raise "Cluster still not ready after #{max_wait} seconds!"
       end
     end
@@ -67,21 +91,13 @@ module Desi
     def stop_cluster
       kill!
 
-      unless (wait_for() { !cluster_ready? })
+      unless wait_until_cluster_is_down
         raise "Strange. Cluster seems still up after #{max_wait} seconds!"
       end
     end
 
     def kill!
       Process.kill("HUP", Integer(pid)) if has_pid?
-    end
-
-    def has_pid?
-      pid && !pid.empty?
-    end
-
-    def pid
-      @pid ||= File.read(pidfile) if pidfile.exist?
     end
 
     def pidfile
@@ -103,14 +119,6 @@ module Desi
         delay += step
       end
       delay < max_wait
-    end
-
-    def running_version
-      begin
-        JSON.parse(@client.get('/').body)["version"]["number"]
-      rescue
-        nil
-      end
     end
 
     def cluster_health
