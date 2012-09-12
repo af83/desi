@@ -45,7 +45,7 @@ module Desi
 
     def status
       if version = running_version
-        msg = "OK. Elastic Search cluster '#{cluster.cluster_name}' (v#{version}) is running on #{cluster.number_of_nodes} node(s) with status #{cluster.status}"
+        msg = "OK. Elastic Search cluster '#{cluster_health.cluster_name}' (v#{version}) is running on #{cluster_health.number_of_nodes} node(s) with status #{cluster_health.status}"
       else
         msg = "KO. No Elastic Search instance was found running on #{@client.uri}"
       end
@@ -113,8 +113,8 @@ module Desi
       end
     end
 
-    def cluster
-      @cluster ||= OpenStruct.new(JSON.parse(@client.get('/_cluster/health').body))
+    def cluster_health
+      @cluster_health ||= OpenStruct.new(JSON.parse(@client.get('/_cluster/health').body))
     end
 
   end
