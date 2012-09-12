@@ -45,13 +45,13 @@ module Desi
     desc "Start or restart Elastic Search"
     verbosity_option
     def start(options = {})
-      Desi::ProcessManager.new.start(verbose: !quiet?(options))
+      Desi::ProcessManager.new(verbose: !quiet?(options)).start
     end
 
     desc "Stop Elastic Search"
     verbosity_option
     def stop(options = {})
-      Desi::ProcessManager.new.stop(verbose: !quiet?(options))
+      Desi::ProcessManager.new(verbose: !quiet?(options)).stop
     end
 
     desc "Show current status"
