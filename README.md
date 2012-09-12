@@ -28,6 +28,7 @@ Or install it yourself as:
     $ desi install [--version VERSION] # Install a specific version (latest by default)
     $ desi start                       # Start or restart Elastic Search
     $ desi stop                        # Stop Elastic Search
+    $ desi status                      # Show cluster status
 
 ## TODO
 

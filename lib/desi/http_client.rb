@@ -7,6 +7,9 @@ require "json"
 module Desi
 
   class HttpClient
+
+    attr_reader :uri
+
     def initialize(uri)
       @uri = URI(uri)
 

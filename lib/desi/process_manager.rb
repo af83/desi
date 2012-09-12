@@ -2,6 +2,7 @@
 
 require "json"
 require "cocaine"
+require "ostruct"
 
 module Desi
   class ProcessManager
@@ -34,6 +35,14 @@ module Desi
 
     def started?
       pidfile.exist?
+    end
+
+    def status
+      if version = running_version
+        puts "Elastic Search cluster '#{cluster.cluster_name}' (v#{version}) is running on #{cluster.number_of_nodes} node(s) with status #{cluster.status}"
+      else
+        puts "No Elastic Search instance was found running on #{@client.uri}"
+      end
     end
 
     private
@@ -90,6 +99,10 @@ module Desi
       rescue
         nil
       end
+    end
+
+    def cluster
+      @cluster ||= OpenStruct.new(JSON.parse(@client.get('/_cluster/health').body))
     end
 
   end

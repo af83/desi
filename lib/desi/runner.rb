@@ -45,6 +45,11 @@ module Desi
       Desi::ProcessManager.new.stop
     end
 
+    desc "Show current status"
+    def status
+      Desi::ProcessManager.new.status
+    end
+
     # desc "Upgrade to latest ElasticSearch version"
     # def upgrade
     # end
