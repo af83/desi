@@ -14,7 +14,16 @@ module Desi
     end
 
     def start
-      puts " * Starting cluster" if @verbose
+      if cluster_ready?
+        puts "ES cluster is already running" if @verbose
+      else
+        start_cluster
+        puts " * Elastic Search #{running_version} started" if @verbose
+      end
+    end
+
+    def restart
+      puts " * (Re)starting cluster" if @verbose
       stop if has_pid?
       start_cluster
       puts " * Elastic Search #{running_version} started" if @verbose

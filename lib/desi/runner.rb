@@ -42,10 +42,16 @@ module Desi
       puts " * #{release} installed" if Desi::Installer.new(package).install! && !quiet?(options)
     end
 
-    desc "Start or restart Elastic Search"
+    desc "Start Elastic Search (do nothing if already active)"
     verbosity_option
     def start(options = {})
       Desi::ProcessManager.new(verbose: !quiet?(options)).start
+    end
+
+    desc "Start or restart Elastic Search (restart if already active)"
+    verbosity_option
+    def restart(options = {})
+      Desi::ProcessManager.new(verbose: !quiet?(options)).restart
     end
 
     desc "Stop Elastic Search"
