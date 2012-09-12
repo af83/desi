@@ -10,7 +10,7 @@ module Desi
       option :quiet,   type: :boolean, desc: "Do not output anything", default: !STDOUT.tty?
     end
 
-    desc "List locally installed Elastic Search versions"
+    desc "List locally installed Elastic Search releases"
     verbosity_option
     def list(options = {})
       puts "Local ES installs:" unless quiet?(options)
@@ -19,8 +19,8 @@ module Desi
       end
     end
 
-    desc "List all available ElasticSearch versions"
-    def list_all
+    desc "List all available ElasticSearch releases"
+    def releases
       Desi::Upstream.new.releases.each do |v|
         puts " * #{v.name} -- #{v.description} (#{v.release_date})"
       end
