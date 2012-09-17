@@ -33,9 +33,9 @@ Or install it yourself as:
 
   * add tests, dammit!
 
+  * index management (list, create, delete ES indices)
   * `desi upgrade` (Upgrade to latest version and migrate data)
   * `desi switch VERSION` (Switch currently active ES version to VERSION)
-  * index management (list, create, delete ES indices)
   * plugin management ? (list, install, remove ES plugins)
 
 ## Contributing
