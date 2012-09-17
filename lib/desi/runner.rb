@@ -72,7 +72,7 @@ module Desi
     desc "Show current status"
     verbosity_option
     def status(options = {})
-      Desi::ProcessManager.new.status
+      Desi::ProcessManager.new(verbose: !quiet?(options)).status
     end
 
     # desc "Upgrade to latest ElasticSearch version"
