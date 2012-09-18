@@ -2,8 +2,13 @@
 
 Desi (Developper ElasticSearch Installer) is very simple tool to quickly set up
 an [Elastic Search](http://www.elasticsearch.org/) local install for
-development purposes. It will download and install ElasticSearch (the latest
-version by default) and let you start/stop/restart it.
+development purposes.
+
+It can:
+  * download and install ElasticSearch (the latest release by default)
+  * start/stop/restart it.
+  * do basic indices management (list, delete, empty a given set of indices)
+
 
 ## Installation
 
@@ -29,11 +34,15 @@ Or install it yourself as:
     $ desi stop                  # Stop cluster
     $ desi status [--host HOST]  # Show running cluster info
 
+    $ desi indices "^foo"          # List all indices whose name match /^foo/
+    $ desi indices "^foo" --delete # Delete all matching indices
+    $ desi indices "bar$" --empty  # Remove all records from the matching
+                                   #  indices
+
 ## TODO
 
   * add tests, dammit!
 
-  * index management (list, create, delete ES indices)
   * `desi upgrade` (Upgrade to latest version and migrate data)
   * `desi switch VERSION` (Switch currently active ES version to VERSION)
   * plugin management ? (list, install, remove ES plugins)

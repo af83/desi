@@ -76,6 +76,23 @@ module Desi
       Desi::ProcessManager.new(verbose: !quiet?(options), host: options[:host]).status
     end
 
+    desc "List indices"
+    verbosity_option
+    option "--host", type: :string, desc: "Elastic Search cluster URL", default: '127.0.0.1:9200'
+    option "--delete", type: :boolean, desc: "Delete the specified indices (You've been warned!)", default: false
+    option "--empty", type: :boolean, desc:  "Delete all documents from the specified indices", default: false
+    def indices(pattern = nil, options = {})
+      index_manager = Desi::IndexManager.new(verbose: !quiet?(options), host: options[:host])
+
+      if options[:delete]
+        index_manager.delete!(pattern)
+      elsif options[:empty]
+        index_manager.empty!(pattern)
+      else
+        index_manager.list(pattern)
+      end
+    end
+
     # desc "Upgrade to latest ElasticSearch version"
     # def upgrade
     # end

@@ -40,6 +40,17 @@ module Desi
       end
     end
 
+    def delete(uri)
+      response = @http.request(Net::HTTP::Delete.new(uri))
+
+      case response
+        when Net::HTTPSuccess
+          response
+        else
+          raise response.error!
+      end
+    end
+
     private
 
     def to_uri(host_string)

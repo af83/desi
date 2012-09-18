@@ -7,5 +7,6 @@ module Desi
   autoload :Upstream,         'desi/upstream'
   autoload :Installer,        'desi/installer'
   autoload :ProcessManager,   'desi/process_manager'
+  autoload :IndexManager,     'desi/index_manager'
 end
 
