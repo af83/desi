@@ -1,12 +1,12 @@
 require "desi/version"
 
 module Desi
-  autoload :Downloader,       'desi/downloader'
-  autoload :HttpClient,       'desi/http_client'
-  autoload :LocalInstall,     'desi/local_install'
-  autoload :Upstream,         'desi/upstream'
-  autoload :Installer,        'desi/installer'
-  autoload :ProcessManager,   'desi/process_manager'
-  autoload :IndexManager,     'desi/index_manager'
+  require 'desi/downloader'
+  require 'desi/http_client'
+  require 'desi/local_install'
+  require 'desi/upstream'
+  require 'desi/installer'
+  require 'desi/process_manager'
+  require 'desi/index_manager'
 end
 

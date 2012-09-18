@@ -3,6 +3,8 @@
 require "json"
 require "cocaine"
 require "ostruct"
+require "desi/http_client"
+require "desi/local_install"
 
 module Desi
   class ProcessManager

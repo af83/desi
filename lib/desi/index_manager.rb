@@ -1,5 +1,7 @@
 # encoding: utf-8
 
+require "desi/http_client"
+
 module Desi
   class IndexManager
 
