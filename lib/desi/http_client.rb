@@ -1,7 +1,7 @@
 # encoding: utf-8
 
 require "net/https"
-require "uri"
+require "addressable/uri"
 require "json"
 
 module Desi
@@ -10,8 +10,8 @@ module Desi
 
     attr_reader :uri
 
-    def initialize(uri)
-      @uri = URI(uri)
+    def initialize(host_string)
+      @uri = to_uri(host_string)
 
       case @uri.scheme
       when 'https'
@@ -38,6 +38,20 @@ module Desi
         else
           raise response.error!
       end
+    end
+
+    private
+
+    def to_uri(host_string)
+      scheme, host, port = ['http', '127.0.0.1', 9200]
+
+      %r{(?<scheme>(https?|))(?:\:\/\/|)(?<host>[^:]+):?(?<port>\d+)/?}.match(host_string) do |m|
+        scheme = m[:scheme] unless m[:scheme].empty?
+        host = m[:host] unless m[:host].empty?
+        port = m[:port] unless m[:port].empty?
+      end
+
+      Addressable::URI.new(scheme: scheme, host: host, port: port)
     end
   end
 

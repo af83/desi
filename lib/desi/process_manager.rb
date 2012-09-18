@@ -8,9 +8,10 @@ module Desi
   class ProcessManager
 
     def initialize(opts = {})
+      @host = opts.fetch(:host, 'http://127.0.0.1:9200')
       @verbose = opts[:verbose]
       @local_install = LocalInstall.new
-      @client = Desi::HttpClient.new('http://localhost:9200/')
+      @client = Desi::HttpClient.new(@host)
     end
 
     def start

@@ -71,8 +71,9 @@ module Desi
 
     desc "Show current status"
     verbosity_option
+    option "--host", type: :string, desc: "Elastic Search cluster URL", default: '127.0.0.1:9200'
     def status(options = {})
-      Desi::ProcessManager.new(verbose: !quiet?(options)).status
+      Desi::ProcessManager.new(verbose: !quiet?(options), host: options[:host]).status
     end
 
     # desc "Upgrade to latest ElasticSearch version"
