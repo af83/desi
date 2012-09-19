@@ -15,6 +15,9 @@ an Elastic Search local install for development purposes.}
   gem.add_dependency "cocaine"
   gem.add_dependency "addressable"
 
+  gem.add_development_dependency "guard-yard"
+  gem.add_development_dependency "redcarpet"
+
   gem.files         = `git ls-files`.split($\)
   gem.executables   = gem.files.grep(%r{^bin/}).map{ |f| File.basename(f) }
   gem.test_files    = gem.files.grep(%r{^(test|spec|features)/})

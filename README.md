@@ -5,9 +5,33 @@ an [Elastic Search](http://www.elasticsearch.org/) local install for
 development purposes.
 
 It can:
+
   * download and install ElasticSearch (the latest release by default)
   * start/stop/restart it.
   * do basic indices management (list, delete, empty a given set of indices)
+
+It can be used both as a command-line tool and as a library.
+
+
+## Usage
+
+    $ desi list                  # List locally installed ElasticSearch releases
+    $ desi releases              # List all upstream Elastic Search releases (latest 5 by default)
+    $ desi install [VERSION]     # Install a specific version (latest by default)
+    $ desi start                 # Start a local 1-node cluster (noop if active)
+    $ desi restart               # (Re)start cluster (even if active)
+    $ desi stop                  # Stop cluster
+    $ desi status [--host HOST]  # Show running cluster info
+
+    $ desi indices "^foo"          # List all indices whose name match /^foo/
+    $ desi indices "^foo" --delete # Delete all matching indices
+    $ desi indices "bar$" --empty  # Remove all records from the matching
+                                   #  indices
+
+## Examples
+
+  * Currently installed releases
+
 
 
 ## Installation
@@ -23,21 +47,6 @@ And then execute:
 Or install it yourself as:
 
     $ gem install desi
-
-## Usage
-
-    $ desi list                  # List locally installed ElasticSearch versions
-    $ desi releases              # List all upstream Elastic Search releases (latest 5 by default)
-    $ desi install [VERSION]     # Install a specific version (latest by default)
-    $ desi start                 # Start a local 1-node cluster (noop if active)
-    $ desi restart               # (Re)start cluster (even if active)
-    $ desi stop                  # Stop cluster
-    $ desi status [--host HOST]  # Show running cluster info
-
-    $ desi indices "^foo"          # List all indices whose name match /^foo/
-    $ desi indices "^foo" --delete # Delete all matching indices
-    $ desi indices "bar$" --empty  # Remove all records from the matching
-                                   #  indices
 
 ## TODO
 
