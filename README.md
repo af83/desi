@@ -13,7 +13,7 @@ It can:
 It can be used both as a command-line tool and as a library.
 
 
-## Usage
+## Usage (command-line)
 
     $ desi list                  # List locally installed ElasticSearch releases
     $ desi releases              # List all upstream Elastic Search releases (latest 5 by default)
@@ -25,15 +25,14 @@ It can be used both as a command-line tool and as a library.
 
     $ desi indices "^foo"          # List all indices whose name match /^foo/
     $ desi indices "^foo" --delete # Delete all matching indices
-    $ desi indices "bar$" --empty  # Remove all records from the matching
-                                   #  indices
+    $ desi indices "bar$" --empty  # Remove all records from the matching indices
 
-## Examples
+## Examples (command-line and Ruby)
 
 ### Get the list of locally installed releases
 
 The current version is the one symlinked to `$HOME/elasticsearch/current`, that
-will be spin up by (`desi start`)
+will be spun up by (`desi start`)
 
   * command-line
 
