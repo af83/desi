@@ -20,7 +20,7 @@ module Desi
     #
     # @note The +:http_client_factory+ should return an instance that responds
     #       to #get and #delete
-    # @return [undefined]
+    # @return [void]
     #
     # @api public
     def initialize(opts = {})
@@ -60,7 +60,7 @@ module Desi
     # Delete all indices matching the specified pattern
     #
     # @param   [#to_s]          pattern  Regexp pattern used to restrict the selection
-    # @return  [undefined]
+    # @return  [void]
     #
     # @note No confirmation is needed, so beware!
     #
@@ -85,7 +85,7 @@ module Desi
     # Empty (remove all records) from indices matching the specified pattern
     #
     # @param   [#to_s]          pattern  Regexp pattern used to restrict the selection
-    # @return  [undefined]
+    # @return  [void]
     #
     # @note No confirmation is needed, so beware!
     #
