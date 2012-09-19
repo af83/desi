@@ -52,6 +52,54 @@ will be spun up by (`desi start`)
   ```
 
 
+### List and delete some indices
+
+  * command-line
+
+  ```shell
+  $ # List all local indices
+  $ desi indices
+    Indices from host http://127.0.0.1:9200 matching the pattern /.*/
+
+    foo
+    bar
+    baz
+
+  $ # List all indices on remote cluster 129.168.1.42, reachable on port 9800
+  $ desi indices --host 129.168.1.42:9800 foo
+    Indices from host http://192.168.1.42:9800 matching the pattern /foo/
+
+    remotefoo1
+    remotefoo2
+
+  $ # Remove all indices whose name starts with "ba"
+  $ desi indices --delete "^ba"
+  The following indices from host http://127.0.0.1:9200 are now deleted
+   * bar
+   * baz
+  ```
+
+
+  * library
+
+  ```ruby
+  # All local indices
+  Desi::IndexManager.new.list #=> ["foo", "bar", "baz"]
+
+  # All local indices whose name starts with `b`
+  Desi::IndexManager.new.list("^b") #=> ["bar", "baz"]
+
+  # All indices from distant cluster
+  Desi::IndexManager.new(host: "192.168.1.42:9800").list #=> ["remotefoo1", "remotefoo2"]
+
+  # Delete all local indices whose name starts with `ba`
+  Desi::IndexManager.new.delete!("^ba") #=> nil
+
+  # The indices actually disappeared
+  Desi::IndexManager.new.list #=> ["foo"]
+  ```
+
+
 
 ## Installation
 
