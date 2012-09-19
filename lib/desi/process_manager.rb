@@ -50,7 +50,7 @@ module Desi
       if version = running_version
         msg = "OK. Elastic Search cluster '#{cluster_health.cluster_name}' (v#{version}) is running on #{cluster_health.number_of_nodes} node(s) with status #{cluster_health.status}"
       else
-        msg = "KO. No Elastic Search instance was found running on #{@client.uri}"
+        msg = "KO. No Elastic Search instance was found running on #{@host}"
       end
       puts msg if @verbose
       msg

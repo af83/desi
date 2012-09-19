@@ -8,8 +8,6 @@ module Desi
 
   class HttpClient
 
-    attr_reader :uri
-
     def initialize(host_string)
       @uri = to_uri(host_string)
 
