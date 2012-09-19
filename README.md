@@ -53,6 +53,24 @@ will be spun up by (`desi start`)
   Desi::LocalInstall.new.releases.detect(&:current?).version #=> "0.19.9"
   ```
 
+### Start a node instance and get the cluster's status
+
+  * command-line
+
+  ```shell
+  $ desi start
+   * Elastic Search 0.19.9 started
+  $ desi status
+  OK. Elastic Search cluster 'elasticsearch' (v0.19.9) is running on 1 node(s) with status yellow
+  ```
+
+
+  * library
+
+  ```ruby
+  Desi::ProcessManager.new.start.status #=> "OK. Elastic Search cluster 'elasticsearch' (v0.19.9) is running on 1 node(s) with status green"
+  ```
+
 
 ### List and delete some indices
 
