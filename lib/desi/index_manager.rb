@@ -26,6 +26,7 @@ module Desi
     def initialize(opts = {})
       @host = opts.fetch(:host, 'http://127.0.0.1:9200')
       @verbose = opts[:verbose]
+      @outputter = opts.fetch(:outputter, Kernel)
       @client = opts.fetch(:http_client_factory, Desi::HttpClient).new(@host)
     end
 
@@ -49,10 +50,10 @@ module Desi
     def list(pattern = '.*')
       pattern = Regexp.new(pattern || '.*')
 
-      puts "Indices from host #{@host} matching the pattern #{pattern.inspect}\n\n" if @verbose
+      @outputter.puts "Indices from host #{@host} matching the pattern #{pattern.inspect}\n\n" if @verbose
 
       list = indices(pattern).sort
-      list.each {|i| puts i } if @verbose
+      list.each {|i| @outputter.puts i } if @verbose
       list
     end
 
@@ -73,11 +74,11 @@ module Desi
     def delete!(pattern)
       warn "You must provide a pattern" and exit if pattern.nil?
 
-      puts "The following indices from host #{@host} are now deleted" if @verbose
+      @outputter.puts "The following indices from host #{@host} are now deleted" if @verbose
 
       indices(Regexp.new(pattern)).each do |index|
         @client.delete(index)
-        puts " * #{index}" if @verbose
+        @outputter.puts " * #{index}" if @verbose
       end
     end
 
@@ -98,11 +99,11 @@ module Desi
     def empty!(pattern)
       warn "You must provide a pattern" and exit if pattern.nil?
 
-      puts "The following indices from host #{@host} are now emptied" if @verbose
+      @outputter.puts "The following indices from host #{@host} are now emptied" if @verbose
 
       indices(Regexp.new(pattern)).each do |index|
         @client.delete("#{index}/_query?q=*")
-        puts " * #{index}" if @verbose
+        @outputter.puts " * #{index}" if @verbose
       end
     end
 
