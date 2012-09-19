@@ -30,9 +30,10 @@ It can be used both as a command-line tool and as a library.
 
 ## Examples
 
-### Currently installed releases
+### Get the list of locally installed releases
 
-The current version is the one symlinked to `$HOME/elasticsearch/current`
+The current version is the one symlinked to `$HOME/elasticsearch/current`, that
+will be spin up by (`desi start`)
 
   * command-line
 
