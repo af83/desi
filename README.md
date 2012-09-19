@@ -30,7 +30,26 @@ It can be used both as a command-line tool and as a library.
 
 ## Examples
 
-  * Currently installed releases
+### Currently installed releases
+
+The current version is the one symlinked to `$HOME/elasticsearch/current`
+
+  * command-line
+
+  ```shell
+  $ desi list
+  Local ES installs (current one is tagged with '*'):
+    * elasticsearch-0.19.9 (/home/me/elasticsearch/elasticsearch-0.19.9)
+    - elasticsearch-0.19.8 (/home/me/elasticsearch/elasticsearch-0.19.8)
+  ```
+
+
+  * library
+
+  ```ruby
+  Desi::LocalInstall.new.releases.map(&:name) #=> ["elasticsearch-0.19.8", "elasticsearch-0.19.9"]
+  Desi::LocalInstall.new.releases.detect(&:current?).version #=> "0.19.9"
+  ```
 
 
 
