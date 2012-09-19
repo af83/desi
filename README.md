@@ -85,7 +85,7 @@ will be spun up by (`desi start`)
     bar
     baz
 
-  $ # List all indices on remote cluster 129.168.1.42, reachable on port 9800
+  $ # List all indices with "foo" in their name on remote cluster 129.168.1.42, port 9800
   $ desi indices --host 129.168.1.42:9800 foo
     Indices from host http://192.168.1.42:9800 matching the pattern /foo/
 
@@ -106,16 +106,16 @@ will be spun up by (`desi start`)
   # All local indices
   Desi::IndexManager.new.list #=> ["foo", "bar", "baz"]
 
-  # All local indices whose name starts with `b`
+  # All local indices whose name starts with "b"
   Desi::IndexManager.new.list("^b") #=> ["bar", "baz"]
 
   # All indices from distant cluster
   Desi::IndexManager.new(host: "192.168.1.42:9800").list #=> ["remotefoo1", "remotefoo2"]
 
-  # Delete all local indices whose name starts with `ba`
+  # Delete all local indices whose name starts with "ba"
   Desi::IndexManager.new.delete!("^ba") #=> nil
 
-  # The indices actually disappeared
+  # The indices actually disappeared! \o/
   Desi::IndexManager.new.list #=> ["foo"]
   ```
 
