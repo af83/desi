@@ -15,16 +15,18 @@ module Desi
     # @option opts [#to_s]     :host ('http://127.0.0.1:9200')  Host to manage indices for
     # @option opts [Boolean]   :verbose   (nil) Whether to output the actions' result
     #                                           on STDOUT
-    # @option opts [#get, #delete] :http_client (Desi::HttpClient) HTTP client
-    #                                                              to use
+    # @option opts [#new]      :http_client_factory (Desi::HttpClient) HTTP transport class
+    #                                                                  to use
     #
+    # @note The +:http_client_factory+ should return an instance that responds
+    #       to #get and #delete
     # @return [undefined]
     #
     # @api public
     def initialize(opts = {})
       @host = opts.fetch(:host, 'http://127.0.0.1:9200')
       @verbose = opts[:verbose]
-      @client = opts.fetch(:http_client, Desi::HttpClient).new(@host)
+      @client = opts.fetch(:http_client_factory, Desi::HttpClient).new(@host)
     end
 
 

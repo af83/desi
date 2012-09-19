@@ -13,7 +13,7 @@ module Desi
       @host = opts.fetch(:host, 'http://127.0.0.1:9200')
       @verbose = opts[:verbose]
       @local_install = LocalInstall.new
-      @client = opts.fetch(:http_client, Desi::HttpClient).new(@host)
+      @client = opts.fetch(:http_client_factory, Desi::HttpClient).new(@host)
     end
 
     def start

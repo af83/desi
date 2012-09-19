@@ -13,7 +13,7 @@ module Desi
     end
 
     def initialize(opts = {})
-      @client = opts.fetch(:http_client, Desi::HttpClient).new('https://api.github.com/')
+      @client = opts.fetch(:http_client_factory, Desi::HttpClient).new('https://api.github.com/')
     end
 
     def releases

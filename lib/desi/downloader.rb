@@ -11,7 +11,7 @@ module Desi
     def initialize(opts = {})
       @destination_dir = Pathname(opts.fetch(:destination_dir, Desi::LocalInstall.new))
       @host = URI(opts.fetch(:host, 'http://cloud.github.com/'))
-      @client = opts.fetch(:http_client, Desi::HttpClient).new(@host)
+      @client = opts.fetch(:http_client_factory, Desi::HttpClient).new(@host)
       @verbose = opts[:verbose]
     end
 
