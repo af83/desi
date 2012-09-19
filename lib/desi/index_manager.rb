@@ -10,11 +10,13 @@ module Desi
 
     # Initializes a Desi::IndexManager instance
     #
-    # @param       [#to_hash]  opts      Hash of extra opts
-    # @option opts [#to_s]     :host     Host to manage indices for
-    #                                    (default: 'http://127.0.0.1:9200')
-    # @option opts [Boolean]   :verbose  Whether to output the actions' result
-    #                                    on STDOUT
+    # @param       [#to_hash]  opts                             Hash of extra opts
+    #
+    # @option opts [#to_s]     :host ('http://127.0.0.1:9200')  Host to manage indices for
+    # @option opts [Boolean]   :verbose   (nil) Whether to output the actions' result
+    #                                           on STDOUT
+    # @option opts [#get, #delete] :http_client (Desi::HttpClient) HTTP client
+    #                                                              to use
     #
     # @return [undefined]
     #
@@ -22,7 +24,7 @@ module Desi
     def initialize(opts = {})
       @host = opts.fetch(:host, 'http://127.0.0.1:9200')
       @verbose = opts[:verbose]
-      @client = Desi::HttpClient.new(@host)
+      @client = opts.fetch(:http_client, Desi::HttpClient).new(@host)
     end
 
 
@@ -32,8 +34,8 @@ module Desi
     # pattern being +/.*/+, all releases will be returned if you do not
     # specify anything.)
     #
-    # @param   [#to_s]          pattern  Regexp pattern used to restrict the selection
-    # @return  [Array<String>]           List of index names of the ES cluster
+    # @param   [#to_s]          pattern ('.*') Regexp pattern used to restrict the selection
+    # @return  [Array<String>]                 List of index names of the ES cluster
     #
     # @note This method will also output its result on STDOUT if +@verbose+ is
     #       true

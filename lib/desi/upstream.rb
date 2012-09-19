@@ -1,6 +1,7 @@
 # encoding: utf-8
 
 require "desi/http_client"
+require "json"
 
 module Desi
   class Upstream
@@ -11,8 +12,8 @@ module Desi
       end
     end
 
-    def initialize
-      @client = Desi::HttpClient.new('https://api.github.com/')
+    def initialize(opts = {})
+      @client = opts.fetch(:http_client, Desi::HttpClient).new('https://api.github.com/')
     end
 
     def releases
