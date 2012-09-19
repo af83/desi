@@ -56,7 +56,7 @@ module Desi
     def to_uri(host_string)
       scheme, host, port = ['http', '127.0.0.1', 9200]
 
-      %r{(?<scheme>(https?|))(?:\:\/\/|)(?<host>[^:]+):?(?<port>\d+)/?}.match(host_string) do |m|
+      %r{(?<scheme>(https?|))(?:\:\/\/|)(?<host>[^:]*?):?(?<port>\d*)/?$}.match(host_string) do |m|
         scheme = m[:scheme] unless m[:scheme].empty?
         host = m[:host] unless m[:host].empty?
         port = m[:port] unless m[:port].empty?
