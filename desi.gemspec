@@ -15,6 +15,7 @@ an Elastic Search local install for development purposes.}
   gem.add_dependency "cocaine"
   gem.add_dependency "addressable"
 
+  gem.add_development_dependency "rake"
   gem.add_development_dependency "rspec"
   gem.add_development_dependency "guard-rspec"
   gem.add_development_dependency "guard-yard"
