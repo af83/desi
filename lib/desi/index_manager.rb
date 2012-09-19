@@ -3,8 +3,22 @@
 require "desi/http_client"
 
 module Desi
+
+  # Performs some simple index-related operations on a local or distance
+  # Elastic Search cluster
   class IndexManager
 
+    # Initializes a Desi::IndexManager instance
+    #
+    # @param       [#to_hash]  opts      Hash of extra opts
+    # @option opts [#to_s]     :host     Host to manage indices for
+    #                                    (default: 'http://127.0.0.1:9200')
+    # @option opts [Boolean]   :verbose  Whether to output the actions' result
+    #                                    on STDOUT
+    #
+    # @return [undefined]
+    #
+    # @api public
     def initialize(opts = {})
       @host = opts.fetch(:host, 'http://127.0.0.1:9200')
       @verbose = opts[:verbose]
@@ -12,7 +26,23 @@ module Desi
     end
 
 
-    def list(pattern = nil)
+    # List index names for the specified cluster
+    #
+    # You can restrict the list using a regular expression pattern. (The default
+    # pattern being +/.*/+, all releases will be returned if you do not
+    # specify anything.)
+    #
+    # @param   [#to_s]          pattern  Regexp pattern used to restrict the selection
+    # @return  [Array<String>]           List of index names of the ES cluster
+    #
+    # @note This method will also output its result on STDOUT if +@verbose+ is
+    #       true
+    #
+    # @example List all indices whose name begins with "foo"
+    #    Desi::IndexManager.new.list('^foo') #=> ["foo1", "foo2", "foo3"]
+    #
+    # @api  public
+    def list(pattern = '.*')
       pattern = Regexp.new(pattern || '.*')
 
       puts "Indices from host #{@client.uri} matching the pattern #{pattern.inspect}\n\n" if @verbose
@@ -22,6 +52,20 @@ module Desi
       list
     end
 
+    # Delete all indices matching the specified pattern
+    #
+    # @param   [#to_s]          pattern  Regexp pattern used to restrict the selection
+    # @return  [undefined]
+    #
+    # @note No confirmation is needed, so beware!
+    #
+    # @note This method will also output its result on STDOUT if +@verbose+ is
+    #       true
+    #
+    # @example Delete all indices whose name begins with "test"
+    #    Desi::IndexManager.new.delete!('^test') #=> nil
+    #
+    # @api  public
     def delete!(pattern)
       warn "You must provide a pattern" and exit if pattern.nil?
 
@@ -33,6 +77,20 @@ module Desi
       end
     end
 
+    # Empty (remove all records) from indices matching the specified pattern
+    #
+    # @param   [#to_s]          pattern  Regexp pattern used to restrict the selection
+    # @return  [undefined]
+    #
+    # @note No confirmation is needed, so beware!
+    #
+    # @note This method will also output its result on STDOUT if +@verbose+ is
+    #       true
+    #
+    # @example Empty all indices whose name begins with "log"
+    #    Desi::IndexManager.new.empty!('^log') #=> nil
+    #
+    # @api  public
     def empty!(pattern)
       warn "You must provide a pattern" and exit if pattern.nil?
 
