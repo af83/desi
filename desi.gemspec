@@ -17,6 +17,7 @@ an Elastic Search local install for development purposes.}
 
   gem.add_development_dependency "guard-yard"
   gem.add_development_dependency "redcarpet"
+  gem.add_development_dependency "rb-inotify"
 
   gem.files         = `git ls-files`.split($\)
   gem.executables   = gem.files.grep(%r{^bin/}).map{ |f| File.basename(f) }
