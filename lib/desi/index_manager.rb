@@ -77,7 +77,7 @@ module Desi
       @outputter.puts "The following indices from host #{@host} are now deleted" if @verbose
 
       indices(Regexp.new(pattern)).each do |index|
-        @client.delete(index)
+        @client.delete("/#{index}")
         @outputter.puts " * #{index}" if @verbose
       end
     end
@@ -102,7 +102,7 @@ module Desi
       @outputter.puts "The following indices from host #{@host} are now emptied" if @verbose
 
       indices(Regexp.new(pattern)).each do |index|
-        @client.delete("#{index}/_query?q=*")
+        @client.delete("/#{index}/_query?q=*")
         @outputter.puts " * #{index}" if @verbose
       end
     end
@@ -110,7 +110,7 @@ module Desi
     private
 
     def indices(pattern)
-      JSON.parse(@client.get('_status').body)["indices"].keys.select {|i|
+      JSON.parse(@client.get('/_status').body)["indices"].keys.select {|i|
               i =~ pattern
       }
     end

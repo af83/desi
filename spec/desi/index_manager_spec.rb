@@ -18,7 +18,7 @@ describe Desi::IndexManager do
   end
 
   def stub_indices(*names)
-    stub_request(:get, '_status', {"indices" => Hash[Array(names).zip]})
+    stub_request(:get, '/_status', {"indices" => Hash[Array(names).zip]})
   end
 
   before do
@@ -63,7 +63,7 @@ describe Desi::IndexManager do
     end
 
     it "deletes all matching indices" do
-      http_client.should_receive(:delete).with("foo")
+      http_client.should_receive(:delete).with("/foo")
       http_client.should_not_receive(:delete).with("bar")
 
       subject.delete!('f.*')
@@ -96,7 +96,7 @@ describe Desi::IndexManager do
     end
 
     it "deletes all matching indices" do
-      http_client.should_receive(:delete).with("foo/_query?q=*")
+      http_client.should_receive(:delete).with("/foo/_query?q=*")
       http_client.should_not_receive(:delete).with("bar")
 
       subject.empty!('f.*')
