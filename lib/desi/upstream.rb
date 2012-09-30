@@ -6,9 +6,21 @@ require "json"
 module Desi
   class Upstream
 
-    class Release < Struct.new(:name, :description, :release_date, :download_url)
+    class Release < Struct.new(:archive_name, :description, :release_date, :download_url)
       def to_s
-        self.name
+        archive_name
+      end
+
+      def name
+        @name ||= archive_name.scan(/^(elasticsearch-.*?)\.tar\.gz$/).flatten.first
+      end
+
+      def version
+        @version ||= archive_name.scan(/^elasticsearch-(.*?)\.tar\.gz$/).flatten.first
+      end
+
+      def ===(name_or_version)
+        name_or_version == version || name_or_version == name || name_or_version == "v#{version}"
       end
     end
 
@@ -27,8 +39,8 @@ module Desi
       releases.first
     end
 
-    def find_release(name)
-      releases.detect {|r| r.name == name || r.version == name }
+    def find_release(name_or_version)
+      releases.detect {|r| r === name_or_version }
     end
 
     private

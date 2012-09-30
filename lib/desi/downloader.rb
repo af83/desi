@@ -16,8 +16,8 @@ module Desi
     end
 
     def download!(version, opts = {})
-      path = "/downloads/elasticsearch/elasticsearch/#{version.name}"
-      destination_name = @destination_dir.join File.basename(version.name)
+      path = "/downloads/elasticsearch/elasticsearch/#{version.archive_name}"
+      destination_name = @destination_dir.join File.basename(version.archive_name)
 
       raise "ERROR: File #{destination_name} already present!" if destination_name.exist?
 

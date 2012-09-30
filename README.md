@@ -31,6 +31,21 @@ It can be used both as a command-line tool and as a library.
 
 ## Examples (command-line and Ruby)
 
+### Installing Elastic Search
+
+ ```bash
+ $ # The latest version will be installed by default
+ $ desi install
+ * No release specified, will fetch latest.
+ * fetching release elasticsearch-0.19.9.tar.gz
+ […]
+
+ $ # You can also give a specific release name
+ $ desi install 0.19.6 # ("v0.19.6" or "elasticsearch-0.19.6" would also work)
+ * fetching release elasticsearch-0.19.6.tar.gz
+ […]
+ ```
+
 ### Get the list of locally installed releases
 
 The current version is the one symlinked to `$HOME/elasticsearch/current`, that
