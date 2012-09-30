@@ -9,13 +9,14 @@ module Desi
     def initialize(archive, opts = {})
       @verbose = opts[:verbose]
       @archive = archive.to_s
-      @local_install = Desi::LocalInstall.new(opts[:destination_dir])
+      @local_install = Desi::LocalInstall.new(opts[:destination_dir], verbose: @verbose)
     end
 
     def install!
       extract! unless extracted?
       install_config_file
       update_symlink!
+      remove_archive!
     end
 
     def extracted?
@@ -32,13 +33,7 @@ module Desi
 
 
     def update_symlink!
-      unless @local_install.current_dir.symlink?
-        raise "Mmmm!! #{@local_install.current_dir} is not a symlink!"
-      end
-
-      puts " * Updating #{@local_install.current_dir} symlink" if @verbose
-      FileUtils.remove(@local_install.current_dir)
-      FileUtils.ln_sf(release_dir, @local_install.current_dir)
+      @local_install.update_current_to(release_dir)
     end
 
     def config_file
@@ -65,6 +60,10 @@ module Desi
       else
         @extracted = true
       end
+    end
+
+    def remove_archive!
+      FileUtils.rm @archive
     end
 
     def release_dir

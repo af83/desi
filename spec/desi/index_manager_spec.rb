@@ -125,9 +125,9 @@ describe Desi::IndexManager do
     let(:factory_for_remote_host) { double("http_client_factory") }
 
     it "sends the other host's url to initialize the client" do
-      factory_for_remote_host.should_receive(:new).with("http://foobar.com")
+      factory_for_remote_host.should_receive(:new).with("http://foobar.com:9400")
 
-      described_class.new(host: "http://foobar.com", http_client_factory: factory_for_remote_host)
+      described_class.new(host: "http://foobar.com:9400", http_client_factory: factory_for_remote_host)
     end
   end
 

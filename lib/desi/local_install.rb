@@ -51,8 +51,10 @@ module Desi
       end
     end
 
-    def initialize(workdir = nil)
+    def initialize(workdir = nil, opts = {})
+      @verbose = opts[:verbose]
       @workdir = Pathname(File.expand_path(workdir || DEFAULT_DIR))
+      create!
     end
 
     def exists?
@@ -61,6 +63,14 @@ module Desi
 
     def current_dir
       @workdir.join('current')
+    end
+
+    def update_current_to(release_dir)
+      current_dir_must_be_nil_or_symlink!
+
+      puts " * Updating #{@local_install.current_dir} symlink" if @verbose
+      FileUtils.remove(current_dir) if current_dir.exist?
+      FileUtils.ln_sf(release_dir, current_dir)
     end
 
     def create!
@@ -85,6 +95,14 @@ module Desi
 
     def launcher
       current_dir.join('bin', 'elasticsearch')
+    end
+
+    private
+
+    def current_dir_must_be_nil_or_symlink!
+      if current_dir.exist? && ! current_dir.symlink?
+        raise "Mmmm!! #{current_dir} is not a symlink!"
+      end
     end
   end
 end

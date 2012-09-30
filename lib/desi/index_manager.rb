@@ -24,7 +24,7 @@ module Desi
     #
     # @api public
     def initialize(opts = {})
-      @host = opts.fetch(:host, 'http://127.0.0.1:9200')
+      @host = to_uri(opts.fetch(:host, 'http://127.0.0.1:9200'))
       @verbose = opts[:verbose]
       @outputter = opts.fetch(:outputter, Kernel)
       @client = opts.fetch(:http_client_factory, Desi::HttpClient).new(@host)
@@ -113,6 +113,18 @@ module Desi
       JSON.parse(@client.get('/_status').body)["indices"].keys.select {|i|
               i =~ pattern
       }
+    end
+
+    def to_uri(host_string)
+      scheme, host, port = ['http', '127.0.0.1', 9200]
+
+      %r{(?<scheme>(https?|))(?:\:\/\/|)(?<host>[^:]*?):?(?<port>\d*)/?$}.match(host_string.to_s) do |m|
+        scheme = m[:scheme] unless m[:scheme].empty?
+        host = m[:host] unless m[:host].empty?
+        port = m[:port] unless m[:port].empty?
+      end
+
+      "#{scheme}://#{host}:#{port}"
     end
 
   end
