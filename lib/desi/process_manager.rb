@@ -43,8 +43,7 @@ module Desi
       if cluster_ready?
         puts "ES cluster is already running" if @verbose
       else
-        start_cluster
-        puts " * Elastic Search #{running_version} started" if @verbose
+        puts " * Elastic Search #{running_version} started" if start_cluster && @verbose
       end
       self
     end
@@ -66,8 +65,7 @@ module Desi
     def restart
       puts " * (Re)starting cluster" if @verbose
       stop if has_pid?
-      start_cluster
-      puts " * Elastic Search #{running_version} started" if @verbose
+      puts " * Elastic Search #{running_version} started" if start_cluster && @verbose
       self
     end
 
@@ -168,6 +166,11 @@ module Desi
       unless wait_until_cluster_becomes_ready
         raise "Cluster still not ready after #{max_wait} seconds!"
       end
+    rescue Cocaine::CommandNotFoundError
+      warn "#{@local_install.launcher} could not be found! Are you sure that Elastic Search is already installed?"
+      false
+    else
+      true
     end
 
     def stop_cluster
