@@ -22,6 +22,10 @@ module Desi
       def ===(name_or_version)
         name_or_version == version || name_or_version == name || name_or_version == "v#{version}"
       end
+
+      def <=>(other)
+        other.release_date <=> other.release_date
+      end
     end
 
     def initialize(opts = {})
@@ -31,8 +35,8 @@ module Desi
     def releases
       @releases ||= fetch_releases.
         select {|v| v['content_type'] == 'application/gzip' }.
-        sort {|a,b| b["name"] <=> a['name'] }.
-        map {|v| Release.new(v['name'], v['description'], v['created_at'], v['html_url']) }
+        map {|v| Release.new(v['name'], v['description'], v['created_at'], v['html_url']) }.
+        sort
     end
 
     def latest_release
