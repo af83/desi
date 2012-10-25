@@ -51,9 +51,9 @@ module Desi
     private
 
     def extract!
-      line = Cocaine::CommandLine.new("tar", "--keep-newer-files -C :extract_dir -zxf :archive", extract_dir: @local_install.to_s, archive: @archive)
+      line = Cocaine::CommandLine.new("tar", "--keep-newer-files -C :extract_dir -zxf :archive")
       begin
-        line.run
+        line.run(extract_dir: @local_install.to_s, archive: @archive)
       rescue Cocaine::CommandNotFoundError => e
         warn "The tar command must be available for this to work! #{e}"
         exit 1
