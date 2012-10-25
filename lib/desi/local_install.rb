@@ -68,7 +68,7 @@ module Desi
     def update_current_to(release_dir)
       current_dir_must_be_nil_or_symlink!
 
-      puts " * Updating #{@local_install.current_dir} symlink" if @verbose
+      puts " * Updating #{current_dir} symlink" if @verbose
       FileUtils.remove(current_dir) if current_dir.exist?
       FileUtils.ln_sf(release_dir, current_dir)
     end
