@@ -160,8 +160,8 @@ module Desi
     end
 
     def start_cluster
-      line = Cocaine::CommandLine.new(@local_install.launcher.to_s, "-p :pidfile", pidfile: pidfile.to_s)
-      line.run
+      line = Cocaine::CommandLine.new(@local_install.launcher.to_s, "-p :pidfile")
+      line.run(pidfile: pidfile.to_s)
 
       unless wait_until_cluster_becomes_ready
         raise "Cluster still not ready after #{max_wait} seconds!"
