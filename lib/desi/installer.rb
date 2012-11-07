@@ -1,7 +1,7 @@
 # encoding: utf-8
 
 require "fileutils"
-require "cocaine"
+require "desi/cocaine"
 
 module Desi
   class Installer

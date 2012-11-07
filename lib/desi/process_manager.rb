@@ -1,7 +1,7 @@
 # encoding: utf-8
 
 require "json"
-require "cocaine"
+require "desi/cocaine"
 require "ostruct"
 require "desi/http_client"
 require "desi/local_install"
