@@ -8,6 +8,27 @@ module Desi
   # Elastic Search cluster
   class IndexManager
 
+    class Index
+      attr_reader :name, :number_of_documents
+
+      def initialize(name, data)
+        @name = name
+        @number_of_documents = data["docs"]["num_docs"] if data && data["docs"]
+      end
+
+      def to_s
+        @name
+      end
+
+      def inspect
+        "#{@name} (#{@number_of_documents} documents)"
+      end
+
+      def <=>(other)
+        @name <=> other.name
+      end
+    end
+
     # Initializes a Desi::IndexManager instance
     #
     # @param       [#to_hash]  opts                             Hash of extra opts
@@ -53,7 +74,7 @@ module Desi
       @outputter.puts "Indices from host #{@host} matching the pattern #{pattern.inspect}\n\n" if @verbose
 
       list = indices(pattern).sort
-      list.each {|i| @outputter.puts i } if @verbose
+      list.each {|i| @outputter.puts i.inspect } if @verbose
       list
     end
 
@@ -78,7 +99,7 @@ module Desi
 
       indices(Regexp.new(pattern)).each do |index|
         @client.delete("/#{index}")
-        @outputter.puts " * #{index}" if @verbose
+        @outputter.puts " * #{index.inspect}" if @verbose
       end
     end
 
@@ -110,9 +131,9 @@ module Desi
     private
 
     def indices(pattern)
-      JSON.parse(@client.get('/_status').body)["indices"].keys.select {|i|
-              i =~ pattern
-      }
+      JSON.parse(@client.get('/_status').body)["indices"].map {|k, v|
+        Index.new(k, v) if k =~ pattern
+      }.compact
     end
 
     def to_uri(host_string)

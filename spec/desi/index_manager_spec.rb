@@ -28,13 +28,13 @@ describe Desi::IndexManager do
   describe "#list" do
     context "with no specified pattern" do
       it "returns the names of all indices" do
-        subject.list.should == %w[bar foo]
+        subject.list.map(&:name).should == %w[bar foo]
       end
     end
 
     context "with a pattern" do
       it "returns the matching indices" do
-        subject.list('oo').should == %w[foo]
+        subject.list('oo').map(&:name).should == %w[foo]
       end
     end
 
