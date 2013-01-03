@@ -10,13 +10,13 @@ module Desi
 
     def initialize(opts = {})
       @destination_dir = Pathname(opts.fetch(:destination_dir, Desi::LocalInstall.new))
-      @host = URI(opts.fetch(:host, 'https://nodeload.github.com/'))
+      @host = URI(opts.fetch(:host, 'https://download.elasticsearch.org/'))
       @client = opts.fetch(:http_client_factory, Desi::HttpClient).new(@host)
       @verbose = opts[:verbose]
     end
 
     def download!(version, opts = {})
-      path = "/elasticsearch/elasticsearch/tar.gz/#{version.version_name}"
+      path = "/elasticsearch/elasticsearch/#{version.filename}"
       destination_name = @destination_dir.join File.basename(version.filename)
 
       raise "ERROR: File #{destination_name} already present!" if destination_name.exist?
