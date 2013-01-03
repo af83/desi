@@ -6,17 +6,17 @@ require "json"
 module Desi
   class Upstream
 
-    class Release < Struct.new(:archive_name, :description, :release_date, :download_url)
+    class Release < Struct.new(:version_name, :download_url)
       def to_s
-        archive_name
+        name
       end
 
       def name
-        @name ||= archive_name.scan(/^(elasticsearch-.*?)\.tar\.gz$/).flatten.first
+        "elasticsearch-#{version}"
       end
 
-      def version
-        @version ||= archive_name.scan(/^elasticsearch-(.*?)\.tar\.gz$/).flatten.first
+      def filename
+        "elasticsearch-#{version}.tar.gz"
       end
 
       def ===(name_or_version)
@@ -24,7 +24,17 @@ module Desi
       end
 
       def <=>(other)
-        other.release_date <=> other.release_date
+        other.sortable_version <=> sortable_version
+      end
+
+      def version
+        version_name.gsub(/^v/, '')
+      end
+
+      protected
+
+      def sortable_version
+        version_name.split('.').map {|c| c.to_i }
       end
     end
 
@@ -33,9 +43,8 @@ module Desi
     end
 
     def releases
-      @releases ||= fetch_releases.
-        select {|v| v['content_type'] == 'application/gzip' }.
-        map {|v| Release.new(v['name'], v['description'], v['created_at'], v['html_url']) }.
+      @releases ||= fetch_tags.
+        map {|v| Release.new(v['name'], v['tarball_url']) }.
         sort
     end
 
@@ -49,8 +58,8 @@ module Desi
 
     private
 
-    def fetch_releases
-      JSON.parse @client.get('/repos/elasticsearch/elasticsearch/downloads').body
+    def fetch_tags
+      JSON.parse @client.get('/repos/elasticsearch/elasticsearch/tags').body
     end
 
   end

@@ -31,7 +31,7 @@ module Desi
         releases
       else
         puts "Here are #{limit == 0 ? 'all the' : "the #{limit} latest"} releases"
-        releases.each {|rel| puts " - #{rel.name} (#{rel.release_date})" }
+        releases.each {|rel| puts " - #{rel.name}" }
       end
     end
 

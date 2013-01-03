@@ -32,7 +32,7 @@ module Desi
         when Net::HTTPSuccess
           response
         when Net::HTTPRedirection
-          fetch(response['location'], limit - 1)
+          get(response['location'], limit - 1)
         else
           raise response.error!
       end
