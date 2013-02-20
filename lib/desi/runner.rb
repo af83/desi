@@ -13,7 +13,7 @@ module Desi
     desc "List locally installed Elastic Search releases"
     verbosity_option
     def list(options = {})
-      puts "Local ES installs (current one is tagged with '*'):" unless quiet?(options)
+      puts "Local ES installs in #{Desi.configuration.directory} (current one is tagged with '*'):" unless quiet?(options)
       Desi::LocalInstall.new.releases.sort.reverse.each do |v|
         puts v
       end

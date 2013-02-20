@@ -4,7 +4,6 @@ require "pathname"
 
 module Desi
   class LocalInstall
-    DEFAULT_DIR = '~/elasticsearch'
 
     class Release
       def self.all_in(workdir)
@@ -53,7 +52,7 @@ module Desi
 
     def initialize(workdir = nil, opts = {})
       @verbose = opts[:verbose]
-      @workdir = Pathname(File.expand_path(workdir || DEFAULT_DIR))
+      @workdir = Pathname(File.expand_path(workdir || Desi.configuration.directory))
       create!
     end
 

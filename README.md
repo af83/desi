@@ -55,7 +55,7 @@ will be spun up by (`desi start`)
 
   ```shell
   $ desi list
-  Local ES installs (current one is tagged with '*'):
+  Local ES installs in /home/me/elasticsearch (current one is tagged with '*'):
     * elasticsearch-0.19.9 (/home/me/elasticsearch/elasticsearch-0.19.9)
     - elasticsearch-0.19.8 (/home/me/elasticsearch/elasticsearch-0.19.8)
   ```
@@ -132,6 +132,25 @@ will be spun up by (`desi start`)
 
   # The indices actually disappeared! \o/
   Desi::IndexManager.new.list #=> ["foo"]
+  ```
+
+
+## Change setting(s)
+
+Right now, there's actually only one setting to change: the installation
+directory. Desi will look for files `/etc/desi.yml` or `~/.desi.yml` and use
+the *directory* entry specified. The default directory is `~/elasticsearch`.
+
+  * command-line
+
+    `echo -e "---\n  directory: ~/foobar" > ~/.desi.yml` for instance
+
+  * library
+
+  ```ruby
+  Desi.configure do |c|
+    c.directory = "~/local/foo"
+  end
   ```
 
 

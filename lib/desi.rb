@@ -1,6 +1,7 @@
 require "desi/version"
 
 module Desi
+  require 'desi/configuration'
   require 'desi/downloader'
   require 'desi/http_client'
   require 'desi/local_install'
