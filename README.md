@@ -1,6 +1,7 @@
 Desi
 ====
 [![Build Status](https://secure.travis-ci.org/AF83/desi.png)](http://travis-ci.org/AF83/desi)
+[![Gem Version](https://badge.fury.io/rb/desi.png)](http://badge.fury.io/rb/desi)
 
 Desi (Developper ElasticSearch Installer) is very simple tool to quickly set up
 an [Elastic Search](http://www.elasticsearch.org/) local install for
