@@ -13,7 +13,8 @@ module Desi
     desc "List locally installed Elastic Search releases"
     verbosity_option
     def list(options = {})
-      puts "Local ES installs in #{Desi.configuration.directory} (current one is tagged with '*'):" unless quiet?(options)
+      set_verbosity!(options)
+      puts "Local ES installs in #{Desi.configuration.directory} (current one is tagged with '*'):" if options[:verbose]
       Desi::LocalInstall.new.releases.sort.reverse.each do |v|
         puts v
       end
@@ -23,57 +24,63 @@ module Desi
     verbosity_option
     option :limit, type: :numeric, desc: "Number of releases to show (0 for all)", default: 5
     def releases(options = {})
+      set_verbosity!(options)
       limit = options[:limit]
       releases = Desi::Upstream.new.releases.each_with_index.
         take_while {|rel, i| i < limit || limit == 0 }.map(&:first)
 
-      if quiet?(options)
-        releases
-      else
+      if options[:verbose]
         puts "Here are #{limit == 0 ? 'all the' : "the #{limit} latest"} releases"
         releases.each {|rel| puts " - #{rel.name}" }
+      else
+        releases
       end
     end
 
     desc "Install ES (to latest stable version by default)"
     verbosity_option
     def install(version_or_full_name = nil, options = {})
+      set_verbosity!(options)
       release = if version_or_full_name
                   Desi::Upstream.new.find_release(version_or_full_name)
                 else
-                  puts " * No release specified, will fetch latest." unless quiet?(options)
+                  puts " * No release specified, will fetch latest." if options[:verbose]
                   Desi::Upstream.new.latest_release
                 end
 
-      puts " * fetching release #{release}" unless quiet?(options)
-      package = Desi::Downloader.new(verbose: !quiet?(options)).download!(release)
+      puts " * fetching release #{release}" if options[:verbose]
+      package = Desi::Downloader.new(options).download!(release)
 
-      puts " * #{release} installed" if Desi::Installer.new(package).install! && !quiet?(options)
+      puts " * #{release} installed" if Desi::Installer.new(package).install! && options[:verbose]
     end
 
     desc "Start Elastic Search (do nothing if already active)"
     verbosity_option
     def start(options = {})
-      Desi::ProcessManager.new(verbose: !quiet?(options)).start
+      set_verbosity!(options)
+      Desi::ProcessManager.new(options).start
     end
 
     desc "Start or restart Elastic Search (restart if already active)"
     verbosity_option
     def restart(options = {})
-      Desi::ProcessManager.new(verbose: !quiet?(options)).restart
+      set_verbosity!(options)
+      Desi::ProcessManager.new(options).restart
     end
 
     desc "Stop Elastic Search"
     verbosity_option
     def stop(options = {})
-      Desi::ProcessManager.new(verbose: !quiet?(options)).stop
+      set_verbosity!(options)
+      Desi::ProcessManager.new(options).stop
     end
 
     desc "Show current status"
     verbosity_option
     option "--host", type: :string, desc: "Elastic Search cluster URL", default: '127.0.0.1:9200'
     def status(options = {})
-      Desi::ProcessManager.new(verbose: !quiet?(options), host: options[:host]).status
+      set_verbosity!(options)
+      Desi::ProcessManager.new(options).status
     end
 
     desc "List indices"
@@ -82,7 +89,8 @@ module Desi
     option "--delete", type: :boolean, desc: "Delete the specified indices (You've been warned!)", default: false
     option "--empty", type: :boolean, desc:  "Delete all documents from the specified indices", default: false
     def indices(pattern = nil, options = {})
-      index_manager = Desi::IndexManager.new(verbose: !quiet?(options), host: options[:host])
+      set_verbosity!(options)
+      index_manager = Desi::IndexManager.new(options)
 
       if options[:delete]
         index_manager.delete!(pattern)
@@ -95,8 +103,8 @@ module Desi
 
     private
 
-    def quiet?(opts = {})
-      opts[:quiet] || !opts[:verbose]
+    def set_verbosity!(opts)
+      opts[:verbose] ||= opts.delete(:quiet)
     end
 
   end
