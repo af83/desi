@@ -25,6 +25,7 @@ module Desi
     def initialize(opts = {})
       @host = opts.fetch(:host, 'http://127.0.0.1:9200')
       @verbose = opts[:verbose]
+      @foreground = opts[:foreground]
       @local_install = LocalInstall.new
       @client = opts.fetch(:http_client_factory, Desi::HttpClient).new(@host)
     end
@@ -160,8 +161,8 @@ module Desi
     end
 
     def start_cluster
-      line = Cocaine::CommandLine.new(@local_install.launcher.to_s, "-p :pidfile")
-      line.run(pidfile: pidfile.to_s)
+      catch_manual_interruption!
+      perform_start
 
       unless wait_until_cluster_becomes_ready
         raise "Cluster still not ready after #{max_wait} seconds!"
@@ -206,6 +207,33 @@ module Desi
       delay < max_wait
     end
 
+    def perform_start
+      puts "ES will be launched in the foreground" if foreground?
+
+      Cocaine::CommandLine.new(@local_install.launcher.to_s, *start_command_options).
+        run(pidfile: pidfile.to_s)
+    end
+
+    def start_command_options
+      ['-p :pidfile', @foreground ? '-f' : nil].compact.join(' ')
+    end
+
+    def foreground?
+      !!@foreground
+    end
+
+    def catch_manual_interruption!
+      if foreground?
+        old_handler = trap(:INT) do
+          $stderr.puts "Elastic Search interrupted!"
+          if old_handler.respond_to?(:call)
+            old_handler.call
+          else
+            exit 1
+          end
+        end
+      end
+    end
 
   end
 end

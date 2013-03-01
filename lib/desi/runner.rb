@@ -10,6 +10,10 @@ module Desi
       option :quiet,   type: :boolean, desc: "Do not output anything", default: !STDOUT.tty?
     end
 
+    def self.start_options
+      option :foreground, type: :boolean, desc: "Run ES in the foreground", default: false
+    end
+
     desc "List locally installed Elastic Search releases"
     verbosity_option
     def list(options = {})
@@ -56,6 +60,7 @@ module Desi
 
     desc "Start Elastic Search (do nothing if already active)"
     verbosity_option
+    start_options
     def start(options = {})
       set_verbosity!(options)
       Desi::ProcessManager.new(options).start
@@ -63,6 +68,7 @@ module Desi
 
     desc "Start or restart Elastic Search (restart if already active)"
     verbosity_option
+    start_options
     def restart(options = {})
       set_verbosity!(options)
       Desi::ProcessManager.new(options).restart

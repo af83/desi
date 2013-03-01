@@ -78,8 +78,13 @@ will be spun up by (`desi start`)
    * Elastic Search 0.19.9 started
   $ desi status
   OK. Elastic Search cluster 'elasticsearch' (v0.19.9) is running on 1 node(s) with status yellow
-  ```
 
+  # Start Elastic Search in the foreground
+  $ desi start -f # or --foreground
+  ES will be launched in the foreground
+  ^C # Manual stop with Control-C
+  Elastic Search interrupted!
+  ```
 
   * library
 
