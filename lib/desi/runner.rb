@@ -107,6 +107,11 @@ module Desi
       end
     end
 
+    desc "Show tail output from Elastic Search's log file"
+    def tail
+      Desi::ProcessManager.new.show_tail
+    end
+
     private
 
     def set_verbosity!(opts)

@@ -25,6 +25,7 @@ It can be used both as a command-line tool and as a library.
     $ desi restart               # (Re)start cluster (even if active)
     $ desi stop                  # Stop cluster
     $ desi status [--host HOST]  # Show running cluster info
+    $ desi tail                  # Show tail output from Elastic Search's log file
 
     $ desi indices "^foo"          # List all indices whose name match /^foo/
     $ desi indices "^foo" --delete # Delete all matching indices

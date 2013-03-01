@@ -92,6 +92,10 @@ module Desi
       @workdir.join('elasticsearch.pid')
     end
 
+    def logfile
+      current_dir.join('logs', 'elasticsearch.log')
+    end
+
     def launcher
       current_dir.join('bin', 'elasticsearch')
     end

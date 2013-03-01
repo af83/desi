@@ -137,6 +137,13 @@ module Desi
       end
     end
 
+    def show_tail(options = {})
+      executable = "tail"
+      lines = Integer(options.fetch(:lines, 10))
+
+      system "#{executable} -n #{lines} -f #{logfile}"
+    end
+
     protected
 
     # Return cluster health data straight from the cluster
@@ -151,6 +158,10 @@ module Desi
     end
 
     private
+
+    def logfile
+      @local_install.logfile
+    end
 
     def wait_until_cluster_becomes_ready(max_wait = 10, step = 0.5)
       wait_for(max_wait, step) { cluster_ready? }
