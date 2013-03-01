@@ -28,6 +28,13 @@ module Desi
       @foreground = opts[:foreground]
       @local_install = LocalInstall.new
       @client = opts.fetch(:http_client_factory, Desi::HttpClient).new(@host)
+
+      @tail_after_start = opts[:tail]
+
+      if @tail_after_start && @foreground
+        $stderr.puts "Cannot tail logs when starting ES in foreground mode"
+        exit 1
+      end
     end
 
     # Start the cluster
@@ -138,6 +145,7 @@ module Desi
     end
 
     def show_tail(options = {})
+      puts "Will tail ES logs…" if @verbose
       executable = "tail"
       lines = Integer(options.fetch(:lines, 10))
 
@@ -174,6 +182,7 @@ module Desi
     def start_cluster
       catch_manual_interruption!
       perform_start
+      show_tail if tail_after_start?
 
       unless wait_until_cluster_becomes_ready
         raise "Cluster still not ready after #{max_wait} seconds!"
@@ -231,6 +240,10 @@ module Desi
 
     def foreground?
       !!@foreground
+    end
+
+    def tail_after_start?
+      @tail_after_start
     end
 
     def catch_manual_interruption!

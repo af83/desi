@@ -12,6 +12,7 @@ module Desi
 
     def self.start_options
       option :foreground, type: :boolean, desc: "Run ES in the foreground", default: false
+      option :tail, type: :boolean, desc: "Run tail after (re)starting", default: false
     end
 
     desc "List locally installed Elastic Search releases"
