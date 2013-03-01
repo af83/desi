@@ -93,15 +93,6 @@ module Desi
       end
     end
 
-    # desc "Upgrade to latest ElasticSearch version"
-    # def upgrade
-    # end
-
-    # desc "Switch currently active ES version to VERSION"
-    # option :version, type: :string
-    # def switch
-    # end
-
     private
 
     def quiet?(opts = {})
