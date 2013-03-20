@@ -16,8 +16,7 @@ module Desi
     end
 
     def load_configuration!
-      config = config_files_data
-      config = defaults if config.empty?
+      config = defaults.merge(config_files_data)
 
       public_methods(false).select {|m| m.to_s =~ /=$/ }.each do |setter|
         attr_name = setter.to_s.tr('=', '')
