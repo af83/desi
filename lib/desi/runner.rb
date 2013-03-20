@@ -107,6 +107,10 @@ module Desi
       else
         index_manager.list(pattern)
       end
+
+    rescue Errno::ECONNREFUSED
+      warn "Server #{options[:host]} appears to be unavailable!"
+      exit 1
     end
 
     desc "Show tail output from Elastic Search's log file"
