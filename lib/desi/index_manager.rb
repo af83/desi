@@ -1,6 +1,7 @@
 # encoding: utf-8
 
 require "desi/http_client"
+require "desi/configuration"
 
 module Desi
 
@@ -33,7 +34,7 @@ module Desi
     #
     # @param       [#to_hash]  opts                             Hash of extra opts
     #
-    # @option opts [#to_s]     :host ('http://127.0.0.1:9200')  Host to manage indices for
+    # @option opts [#to_s]     :host ('http://localhost:9200')  Host to manage indices for
     # @option opts [Boolean]   :verbose   (nil) Whether to output the actions' result
     #                                           on STDOUT
     # @option opts [#new]      :http_client_factory (Desi::HttpClient) HTTP transport class
@@ -45,7 +46,7 @@ module Desi
     #
     # @api public
     def initialize(opts = {})
-      @host = to_uri(opts.fetch(:host, 'http://127.0.0.1:9200'))
+      @host = to_uri(opts.fetch(:host) { Desi.configuration.server })
       @verbose = opts[:verbose]
       @outputter = opts.fetch(:outputter, Kernel)
       @client = opts.fetch(:http_client_factory, Desi::HttpClient).new(@host)
@@ -137,7 +138,7 @@ module Desi
     end
 
     def to_uri(host_string)
-      scheme, host, port = ['http', '127.0.0.1', 9200]
+      scheme, host, port = ['http', 'localhost', 9200]
 
       %r{(?<scheme>(https?|))(?:\:\/\/|)(?<host>[^:]*?):?(?<port>\d*)/?$}.match(host_string.to_s) do |m|
         scheme = m[:scheme] unless m[:scheme].empty?

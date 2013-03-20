@@ -1,6 +1,7 @@
 # encoding: utf-8
 
 require 'boson/runner'
+require "desi/configuration"
 
 module Desi
   class Runner < Boson::Runner
@@ -84,7 +85,7 @@ module Desi
 
     desc "Show current status"
     verbosity_option
-    option "--host", type: :string, desc: "Elastic Search cluster URL", default: '127.0.0.1:9200'
+    option "--host", type: :string, desc: "Elastic Search cluster URL", default: Desi.configuration.server
     def status(options = {})
       set_verbosity!(options)
       Desi::ProcessManager.new(options).status
@@ -92,7 +93,7 @@ module Desi
 
     desc "List indices"
     verbosity_option
-    option "--host", type: :string, desc: "Elastic Search cluster URL", default: '127.0.0.1:9200'
+    option "--host", type: :string, desc: "Elastic Search cluster URL", default: Desi.configuration.server
     option "--delete", type: :boolean, desc: "Delete the specified indices (You've been warned!)", default: false
     option "--empty", type: :boolean, desc:  "Delete all documents from the specified indices", default: false
     def indices(pattern = nil, options = {})

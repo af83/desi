@@ -144,9 +144,13 @@ will be spun up by (`desi start`)
 
 ## Change setting(s)
 
-Right now, there's actually only one setting to change: the installation
-directory. Desi will look for files `/etc/desi.yml` or `~/.desi.yml` and use
-the *directory* entry specified. The default directory is `~/elasticsearch`.
+There are two settings at the moment: location of the installation directory
+(`directory`, default: `~/elasticsearch`) and ES host address (`server`,
+default: `localhost:9200`).
+
+Desi will look for files `/etc/desi.yml` or `~/.desi.yml` (the options found in
+the former will be overriden by the ones found in the latter).
+
 
   * command-line
 
@@ -157,6 +161,7 @@ the *directory* entry specified. The default directory is `~/elasticsearch`.
   ```ruby
   Desi.configure do |c|
     c.directory = "~/local/foo"
+    c.server = "192.168.1.42:9200"
   end
   ```
 

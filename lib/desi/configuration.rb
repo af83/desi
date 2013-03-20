@@ -15,6 +15,8 @@ module Desi
       @directory = Pathname(File.expand_path(dir))
     end
 
+    attr_accessor :server
+
     def load_configuration!
       config = defaults.merge(config_files_data)
 
@@ -56,7 +58,7 @@ module Desi
     end
 
     def defaults
-      {'directory' => "~/elasticsearch"}
+      {'directory' => "~/elasticsearch", "server" => "localhost:9200"}
     end
 
     instance.load_configuration!
@@ -71,6 +73,7 @@ module Desi
   #
   # Desi.configure do |c|
   #   c.directory = "~/es"
+  #   c.server = "127.0.0.53:9200"
   # end
   #
   # @return [Desi::Configuration] the configuration

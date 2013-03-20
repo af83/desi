@@ -5,6 +5,7 @@ require "desi/cocaine"
 require "ostruct"
 require "desi/http_client"
 require "desi/local_install"
+require "desi/configuration"
 
 module Desi
 
@@ -23,7 +24,7 @@ module Desi
   class ProcessManager
 
     def initialize(opts = {})
-      @host = opts.fetch(:host, 'http://127.0.0.1:9200')
+      @host = opts.fetch(:host) { Desi.configuration.server }
       @verbose = opts[:verbose]
       @foreground = opts[:foreground]
       @local_install = LocalInstall.new
