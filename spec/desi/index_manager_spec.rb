@@ -19,6 +19,7 @@ describe Desi::IndexManager do
 
   def stub_indices(*names)
     stub_request(:get, '/_status', {"indices" => Hash[Array(names).zip]})
+    stub_request(:get, '/_cluster/state', {"metadata" => {"indices" => Hash[Array(names).zip]}})
   end
 
   before do

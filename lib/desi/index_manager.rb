@@ -10,23 +10,34 @@ module Desi
   class IndexManager
 
     class Index
-      attr_reader :name, :number_of_documents
+      attr_reader :name, :number_of_documents, :state, :number_of_documents
 
-      def initialize(name, data)
+      def initialize(name, state_data, status_data)
         @name = name
-        @number_of_documents = data["docs"]["num_docs"] if data && data["docs"]
+        @number_of_documents = status_data["docs"]["num_docs"] if status_data && status_data["docs"]
+        if state_data
+          @state = state_data['state']
+        end
       end
 
       def to_s
-        @name
+        name
       end
 
       def inspect
-        "#{@name} (#{@number_of_documents} documents)"
+        "#{name} (#{closed? ? 'CLOSED' : "#{number_of_documents} docs"})"
       end
 
       def <=>(other)
-        @name <=> other.name
+        name <=> other.name
+      end
+
+      def open?
+        state == "open"
+      end
+
+      def closed?
+        state == "close"
       end
     end
 
@@ -132,8 +143,13 @@ module Desi
     private
 
     def indices(pattern)
-      JSON.parse(@client.get('/_status').body)["indices"].map {|k, v|
-        Index.new(k, v) if k =~ pattern
+      cluster_state = JSON.parse(@client.get('/_cluster/state').body)
+      status = JSON.parse(@client.get('/_status').body)
+
+      cluster_state["metadata"]["indices"].map {|k, v|
+        if k =~ pattern
+          Index.new(k, v, status['indices'][k])
+        end
       }.compact
     end
 
