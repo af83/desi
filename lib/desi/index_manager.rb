@@ -10,12 +10,15 @@ module Desi
   class IndexManager
 
     class Index
-      attr_reader :name, :number_of_documents, :state, :number_of_documents
+      attr_reader :name, :number_of_documents, :aliases, :state, :number_of_documents
 
       def initialize(name, state_data, status_data)
         @name = name
         @number_of_documents = status_data["docs"]["num_docs"] if status_data && status_data["docs"]
+        @aliases = []
+
         if state_data
+          @aliases = state_data['aliases']
           @state = state_data['state']
         end
       end
@@ -25,7 +28,11 @@ module Desi
       end
 
       def inspect
-        "#{name} (#{closed? ? 'CLOSED' : "#{number_of_documents} docs"})"
+        "#{name} (#{number_of_docs_label})#{aliases_label}"
+      end
+
+      def aliased?
+        !(aliases.nil? || aliases.empty?)
       end
 
       def <=>(other)
@@ -38,6 +45,16 @@ module Desi
 
       def closed?
         state == "close"
+      end
+
+      private
+
+      def number_of_docs_label
+        closed? ? 'CLOSED' : "#{number_of_documents} docs"
+      end
+
+      def aliases_label
+        aliased? ? ". Aliases: #{aliases.join(', ')}" : nil
       end
     end
 
