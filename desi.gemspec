@@ -11,6 +11,8 @@ an Elastic Search local install for development purposes.}
   gem.homepage      = "https://github.com/AF83/desi/"
   gem.version       = Desi::VERSION
 
+  gem.required_ruby_version = ">= 1.9.3"
+
   gem.add_dependency "boson"
   gem.add_dependency "cocaine", "~> 0.5.3"
   gem.add_dependency "addressable"
