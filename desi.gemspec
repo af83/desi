@@ -12,7 +12,7 @@ an Elastic Search local install for development purposes.}
   gem.version       = Desi::VERSION
 
   gem.add_dependency "boson"
-  gem.add_dependency "cocaine", "0.4.2"
+  gem.add_dependency "cocaine", "~> 0.5.3"
   gem.add_dependency "addressable"
 
   gem.add_development_dependency "rake"
