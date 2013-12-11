@@ -172,20 +172,20 @@ module Desi
       @local_install.logfile
     end
 
-    def wait_until_cluster_becomes_ready(max_wait = 10, step = 0.5)
+    def wait_until_cluster_becomes_ready(max_wait, step)
       wait_for(max_wait, step) { cluster_ready? }
     end
 
-    def wait_until_cluster_is_down(max_wait = 5, step = 0.3)
+    def wait_until_cluster_is_down(max_wait, step)
       wait_for(max_wait, step) { !cluster_ready? }
     end
 
-    def start_cluster
+    def start_cluster(max_wait = 10, step = 0.5)
       catch_manual_interruption!
       perform_start
       show_tail if tail_after_start?
 
-      unless wait_until_cluster_becomes_ready
+      unless wait_until_cluster_becomes_ready(max_wait, step)
         raise "Cluster still not ready after #{max_wait} seconds!"
       end
     rescue Cocaine::CommandNotFoundError
@@ -195,10 +195,10 @@ module Desi
       true
     end
 
-    def stop_cluster
+    def stop_cluster(max_wait = 5, step = 0.3)
       kill!
 
-      unless wait_until_cluster_is_down
+      unless wait_until_cluster_is_down(max_wait, step)
         raise "Strange. Cluster seems still up after #{max_wait} seconds!"
       end
     end
