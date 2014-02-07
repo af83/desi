@@ -9,6 +9,7 @@ Gem::Specification.new do |gem|
   gem.description   = %q{Desi (Developper ElasticSearch Installer) is very simple tool to quickly set up
 an Elastic Search local install for development purposes.}
   gem.homepage      = "https://github.com/AF83/desi/"
+  gem.licenses      = ['MIT']
   gem.version       = Desi::VERSION
 
   gem.required_ruby_version = ">= 1.9.3"
