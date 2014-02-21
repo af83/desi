@@ -34,7 +34,7 @@ module Desi
       protected
 
       def sortable_version
-        version_name.split('.').map {|c| c.to_i }
+        version.split('.').map {|c| c.to_i }
       end
     end
 
