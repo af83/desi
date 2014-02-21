@@ -13,7 +13,7 @@ describe Desi::IndexManager do
 
   def stub_request(method, path, payload)
     http_client.stub(method).with(path).and_return(
-      mock("response", body: JSON.unparse(payload))
+      double("response", body: JSON.unparse(payload))
     )
   end
 
