@@ -27,7 +27,6 @@ module Desi
       @host = opts.fetch(:host) { Desi.configuration.server }
       @verbose = opts[:verbose]
       @foreground = opts[:foreground]
-      @background = opts[:background]
       @local_install = LocalInstall.new
       @client = opts.fetch(:http_client_factory, Desi::HttpClient).new(@host)
 
@@ -242,18 +241,14 @@ module Desi
 
     def foreground_or_background_flag
       if legacy_release?
-        !! @foreground ? '-f' : ''
+        foreground? ? '-f' : ''
       else
-        !! @background ? '-d' : ''
+        foreground? ? '' : '-d'
       end
     end
 
     def foreground?
-      if legacy_release?
-        !! @foreground
-      else
-        ! @background
-      end
+      !! @foreground
     end
 
     def tail_after_start?
