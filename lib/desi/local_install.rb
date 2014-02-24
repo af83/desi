@@ -1,6 +1,7 @@
 # encoding: utf-8
 
 require "pathname"
+require "semantic"
 
 module Desi
   class LocalInstall
@@ -26,7 +27,7 @@ module Desi
       end
 
       def version
-        @version ||= /^elasticsearch\-(?<version>.*)$/.match(name.to_s)[:version]
+        @version ||= Semantic::Version.new /^elasticsearch\-(?<version>.*)$/.match(name.to_s)[:version]
       end
 
       def to_s
@@ -39,6 +40,10 @@ module Desi
         name <=> other.name
       end
 
+      def pre_one_zero?
+        @pre_one_zero ||= (version < Semantic::Version.new("1.0.0-alpha"))
+      end
+
       private
 
       def current_symlink
@@ -48,6 +53,12 @@ module Desi
       def current_symlink?
         current_symlink.exist?
       end
+    end # Release
+
+
+    def self.current_release_is_pre_one_zero?
+      current = new.current_release
+      current && current.pre_one_zero?
     end
 
     def initialize(workdir = nil, opts = {})
@@ -78,6 +89,10 @@ module Desi
 
     def releases
       Release.all_in(@workdir)
+    end
+
+    def current_release
+      releases.find {|r| r.current? }
     end
 
     def to_path

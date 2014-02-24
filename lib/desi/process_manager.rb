@@ -27,6 +27,7 @@ module Desi
       @host = opts.fetch(:host) { Desi.configuration.server }
       @verbose = opts[:verbose]
       @foreground = opts[:foreground]
+      @background = opts[:background]
       @local_install = LocalInstall.new
       @client = opts.fetch(:http_client_factory, Desi::HttpClient).new(@host)
 
@@ -213,7 +214,7 @@ module Desi
 
     def cluster_ready?
       begin
-        JSON.parse(@client.get('/').body)["ok"]
+        JSON.parse(@client.get('/').body)["status"] == 200
       rescue
         false
       end
@@ -236,11 +237,23 @@ module Desi
     end
 
     def start_command_options
-      ['-p :pidfile', @foreground ? '-f' : nil].compact.join(' ')
+      ['-p :pidfile', foreground_or_background_flag].compact.join(' ')
+    end
+
+    def foreground_or_background_flag
+      if legacy_release?
+        !! @foreground ? '-f' : ''
+      else
+        !! @background ? '-d' : ''
+      end
     end
 
     def foreground?
-      !!@foreground
+      if legacy_release?
+        !! @foreground
+      else
+        ! @background
+      end
     end
 
     def tail_after_start?
@@ -258,6 +271,10 @@ module Desi
           end
         end
       end
+    end
+
+    def legacy_release?
+      @legacy_release ||= Desi::LocalInstall.current_release_is_pre_one_zero?
     end
 
   end

@@ -12,7 +12,12 @@ module Desi
     end
 
     def self.start_options
-      option :foreground, type: :boolean, desc: "Run ES in the foreground", default: false
+      if Desi::LocalInstall.current_release_is_pre_one_zero?
+        option :foreground, type: :boolean, desc: "Run ES in the foreground", default: false
+      else
+        option :background, type: :boolean, desc: "Run ES in the background", default: false
+      end
+
       option :tail, type: :boolean, desc: "Run tail after (re)starting", default: false
     end
 
