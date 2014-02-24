@@ -17,6 +17,7 @@ an Elastic Search local install for development purposes.}
   gem.add_dependency "boson"
   gem.add_dependency "cocaine", "~> 0.5.3"
   gem.add_dependency "addressable"
+  gem.add_dependency "semantic", "~> 1.3.0"
 
   gem.add_development_dependency "rake"
   gem.add_development_dependency "rspec"

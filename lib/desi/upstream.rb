@@ -2,6 +2,7 @@
 
 require "desi/http_client"
 require "json"
+require "semantic"
 
 module Desi
   class Upstream
@@ -34,7 +35,7 @@ module Desi
       protected
 
       def sortable_version
-        version.split('.').map {|c| c.to_i }
+        @sortable_version ||= Semantic::Version.new(version.sub(%r{.(beta|alpha|rc)}i, '-\1'))
       end
     end
 
