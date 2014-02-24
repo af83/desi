@@ -118,6 +118,11 @@ module Desi
       Desi::ProcessManager.new.show_tail
     end
 
+    desc "Return the Desi release version"
+    def version
+      puts Desi::VERSION
+    end
+
     private
 
     def set_verbosity!(opts)
