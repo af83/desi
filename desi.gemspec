@@ -6,7 +6,7 @@ Gem::Specification.new do |gem|
   gem.authors       = ["Dominique Rose-Rosette"]
   gem.email         = ["drose-rosette@af83.com"]
   gem.summary       = %q{A developer tool to quickly set up an Elastic Search local install.}
-  gem.description   = %q{Desi (Developper ElasticSearch Installer) is very simple tool to quickly set up
+  gem.description   = %q{Desi (Developper Elasticsearch Installer) is very simple tool to quickly set up
 an Elastic Search local install for development purposes.}
   gem.homepage      = "https://github.com/AF83/desi/"
   gem.licenses      = ['MIT']

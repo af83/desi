@@ -26,7 +26,7 @@ module Desi
       end
     end
 
-    desc "List latest ElasticSearch releases (latest 5 by default)"
+    desc "List latest Elasticsearch releases (latest 5 by default)"
     verbosity_option
     option :limit, type: :numeric, desc: "Number of releases to show (0 for all)", default: 5
     def releases(options = {})

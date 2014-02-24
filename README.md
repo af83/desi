@@ -3,13 +3,13 @@ Desi
 [![Build Status](https://secure.travis-ci.org/AF83/desi.png)](http://travis-ci.org/AF83/desi)
 [![Gem Version](https://badge.fury.io/rb/desi.png)](http://badge.fury.io/rb/desi)
 
-Desi (Developper ElasticSearch Installer) is very simple tool to quickly set up
+Desi (Developper Elasticsearch Installer) is very simple tool to quickly set up
 an [Elastic Search](http://www.elasticsearch.org/) local install for
 development purposes.
 
 It can:
 
-  * download and install ElasticSearch (the latest release by default)
+  * download and install Elasticsearch (the latest release by default)
   * start/stop/restart it.
   * do basic indices management (list, delete, empty a given set of indices)
 
@@ -18,7 +18,7 @@ It can be used both as a command-line tool and as a library.
 
 ## Usage (command-line)
 
-    $ desi list                  # List locally installed ElasticSearch releases
+    $ desi list                  # List locally installed Elasticsearch releases
     $ desi releases              # List all upstream Elastic Search releases (latest 5 by default)
     $ desi install [VERSION]     # Install a specific version (latest by default)
     $ desi start                 # Start a local 1-node cluster (noop if active)
