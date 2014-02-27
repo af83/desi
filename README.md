@@ -39,12 +39,12 @@ It can be used both as a command-line tool and as a library.
  $ # The latest version will be installed by default
  $ desi install
  * No release specified, will fetch latest.
- * fetching release elasticsearch-0.19.9.tar.gz
+ * fetching release elasticsearch-1.0.1.tar.gz
  […]
 
  $ # You can also give a specific release name
- $ desi install 0.19.6 # ("v0.19.6" or "elasticsearch-0.19.6" would also work)
- * fetching release elasticsearch-0.19.6.tar.gz
+ $ desi install 0.90.12 # ("v0.90.12" or "elasticsearch-0.90.12" would also work)
+ * fetching release elasticsearch-0.90.12.tar.gz
  […]
  ```
 
@@ -58,16 +58,16 @@ will be spun up by (`desi start`)
   ```shell
   $ desi list
   Local ES installs in /home/me/elasticsearch (current one is tagged with '*'):
-    * elasticsearch-0.19.9 (/home/me/elasticsearch/elasticsearch-0.19.9)
-    - elasticsearch-0.19.8 (/home/me/elasticsearch/elasticsearch-0.19.8)
+    * elasticsearch-1.0.1 (/home/me/elasticsearch/elasticsearch-1.0.1)
+    - elasticsearch-1.0.0 (/home/me/elasticsearch/elasticsearch-1.0.0)
   ```
 
 
   * library
 
   ```ruby
-  Desi::LocalInstall.new.releases.map(&:name) #=> ["elasticsearch-0.19.8", "elasticsearch-0.19.9"]
-  Desi::LocalInstall.new.releases.detect(&:current?).version #=> "0.19.9"
+  Desi::LocalInstall.new.releases.map(&:name) #=> ["elasticsearch-1.0.0", "elasticsearch-1.0.1"]
+  Desi::LocalInstall.new.releases.detect(&:current?).version #=> "1.0.1"
   ```
 
 ### Start a node instance and get the cluster's status
@@ -76,9 +76,9 @@ will be spun up by (`desi start`)
 
   ```shell
   $ desi start
-   * Elastic Search 0.19.9 started
+   * Elastic Search 1.0.1 started
   $ desi status
-  OK. Elastic Search cluster 'elasticsearch' (v0.19.9) is running on 1 node(s) with status yellow
+  OK. Elastic Search cluster 'elasticsearch' (v1.0.1) is running on 1 node(s) with status yellow
 
   # Start Elastic Search in the foreground
   $ desi start -f # or --foreground
@@ -90,7 +90,7 @@ will be spun up by (`desi start`)
   * library
 
   ```ruby
-  Desi::ProcessManager.new.start.status #=> "OK. Elastic Search cluster 'elasticsearch' (v0.19.9) is running on 1 node(s) with status green"
+  Desi::ProcessManager.new.start.status #=> "OK. Elastic Search cluster 'elasticsearch' (v1.0.1) is running on 1 node(s) with status green"
   ```
 
 
