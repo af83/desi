@@ -148,8 +148,16 @@ There are two settings at the moment: location of the installation directory
 (`directory`, default: `~/elasticsearch`) and ES host address (`server`,
 default: `localhost:9200`).
 
-Desi will look for files `/etc/desi.yml` or `~/.desi.yml` (the options found in
-the former will be overriden by the ones found in the latter).
+There are two places Desi will be looking for configuration files:
+
+  * a system-wide file: `/etc/desi.yml`
+  * a user-specific file, which can be either `$XDG\_HOME\_DIR/desi/config.yml`,
+    if [freedesktop](http://www.freedesktop.org/wiki/) environment variable
+    [`$XDG\_HOME\_DIR`](http://standards.freedesktop.org/basedir-spec/basedir-spec-latest.html)
+    is defined, or `~/.desi.yml` (default)
+
+The options found in the former will be overriden by the ones found in the
+latter.
 
 
   * command-line

@@ -9,13 +9,16 @@ module Desi
   class Configuration
     include Singleton
 
+    attr_accessor :server
+
     attr_reader :directory
+
+    # @api private
+    attr_writer :environment
 
     def directory=(dir)
       @directory = Pathname(File.expand_path(dir))
     end
-
-    attr_accessor :server
 
     def load_configuration!
       config = defaults.merge(config_files_data)
@@ -31,10 +34,30 @@ module Desi
       self
     end
 
-    private
+    # @api private
+    def system_wide_config_file
+      "/etc/desi.yml".freeze
+    end
+
+    # @api private
+    def user_config_file
+      dir = environment["XDG_CONFIG_HOME"]
+
+      if dir
+        File.join(dir, "desi", "config.yml")
+      else
+        "~/.desi.yml"
+      end
+    end
 
     def config_files
-      %w[/etc/desi.yml ~/.desi.yml]
+      [system_wide_config_file, user_config_file]
+    end
+
+    private
+
+    def environment
+      @environment || ENV
     end
 
     def config_files_data
