@@ -5,33 +5,38 @@ require "yaml"
 require "pathname"
 
 module Desi
-
   class Configuration
-    include Singleton
 
-    attr_accessor :server
 
-    attr_reader :directory
+    class Settings
+      include Singleton
 
-    # @api private
-    attr_writer :environment
+      attr_accessor :server
+      attr_reader :directory
 
-    def directory=(dir)
-      @directory = Pathname(File.expand_path(dir))
+      def directory=(dir)
+        @directory = Pathname(File.expand_path(dir))
+      end
     end
 
+    # @api private
     def load_configuration!
       config = defaults.merge(config_files_data)
 
-      public_methods(false).select {|m| m.to_s =~ /=$/ }.each do |setter|
+      settings.public_methods(false).select {|m| m.to_s =~ /=$/ }.each do |setter|
         attr_name = setter.to_s.tr('=', '')
 
         if config.has_key?(attr_name)
-          send(setter, config[attr_name])
+          settings.send(setter, config[attr_name])
         end
       end
 
       self
+    end
+
+    # @api private
+    def config_files
+      [system_wide_config_file, user_config_file]
     end
 
     # @api private
@@ -50,11 +55,14 @@ module Desi
       end
     end
 
-    def config_files
-      [system_wide_config_file, user_config_file]
-    end
+    # @api private
+    attr_writer :environment
 
     private
+
+    def settings
+      Settings.instance
+    end
 
     def environment
       @environment || ENV
@@ -84,7 +92,14 @@ module Desi
       {'directory' => "~/elasticsearch", "server" => "localhost:9200"}
     end
 
-    instance.load_configuration!
+    def stringify_keys(hash)
+      new = {}
+      hash.each_key do |key|
+        new[key.to_s] = hash[key]
+      end
+    end
+
+    new.load_configuration!
   end # Configuration
 
   module_function
@@ -106,7 +121,7 @@ module Desi
   end
 
   def configuration
-    Configuration.instance
+    Configuration::Settings.instance
   end
 
 end

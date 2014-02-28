@@ -4,7 +4,6 @@ require "spec_helper"
 require "desi/configuration"
 
 describe Desi::Configuration do
-  subject { Desi.configuration }
 
   its(:system_wide_config_file) { eq "/etc/desi.yml" }
 
