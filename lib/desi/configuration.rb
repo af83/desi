@@ -7,6 +7,10 @@ require "pathname"
 module Desi
   class Configuration
 
+    DEFAULTS = {
+      directory:  "~/elasticsearch",
+      server:     "localhost:9200"
+    }.freeze
 
     class Settings
       include Singleton
@@ -21,7 +25,7 @@ module Desi
 
     # @api private
     def load_configuration!
-      config = defaults.merge(config_files_data)
+      config = stringify_keys(DEFAULTS).merge(config_files_data)
 
       settings.public_methods(false).select {|m| m.to_s =~ /=$/ }.each do |setter|
         attr_name = setter.to_s.tr('=', '')
@@ -81,15 +85,11 @@ module Desi
       data = YAML.load_file(file)
 
       if data.is_a? Hash
-        data
+        stringify_keys data
       else
         warn "Configuration file #{filename} contains malformed data and will be ignored"
         {}
       end
-    end
-
-    def defaults
-      {'directory' => "~/elasticsearch", "server" => "localhost:9200"}
     end
 
     def stringify_keys(hash)
