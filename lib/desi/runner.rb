@@ -54,6 +54,11 @@ module Desi
                   Desi::Upstream.new.latest_release
                 end
 
+      if Desi::LocalInstall.new.releases.any? {|r| r == release }
+        puts " * release #{release.version} seems to be already installed" if options[:verbose]
+        return
+      end
+
       puts " * fetching release #{release}" if options[:verbose]
       package = Desi::Downloader.new(options).download!(release)
 

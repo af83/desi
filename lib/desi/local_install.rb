@@ -27,13 +27,17 @@ module Desi
       end
 
       def version
-        @version ||= Semantic::Version.new /^elasticsearch\-(?<version>.*)$/.match(name.to_s)[:version]
+        @version ||= Semantic::Version.new(/^elasticsearch\-(?<version>.*)$/.match(name.to_s)[:version])
       end
 
       def to_s
         current_mark = current? ? '*' : '-'
 
         " #{current_mark} #{name} (#{@dirname})"
+      end
+
+      def ==(other)
+        other.version.to_s == version.to_s
       end
 
       def <=>(other)
