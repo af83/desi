@@ -27,7 +27,7 @@ module Desi
       end
 
       def version
-        @version ||= Semantic::Version.new(/^elasticsearch\-(?<version>.*)$/.match(name.to_s)[:version])
+        @version ||= Semantic::Version.new(version_number)
       end
 
       def to_s
@@ -57,8 +57,14 @@ module Desi
       def current_symlink?
         current_symlink.exist?
       end
-    end # Release
 
+      # Ugly hack to get around elasticsearch's flakey semver naming
+      # (e.g. `1.4.0.Beta1` instead of `1.4.0-beta1`)
+      def version_number
+        /^elasticsearch\-(?<version>.*)$/.match(name.to_s)[:version].
+          sub(/\.(alpha|beta)/i, '-\1')
+      end
+    end # Release
 
     def self.current_release_is_pre_one_zero?
       current = new.current_release
