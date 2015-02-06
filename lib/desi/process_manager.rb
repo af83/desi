@@ -229,6 +229,7 @@ module Desi
     end
 
     def perform_start
+      check_java_presence!
       puts "ES will be launched in the foreground" if foreground?
 
       Cocaine::CommandLine.new(@local_install.launcher.to_s, *start_command_options).
@@ -272,5 +273,11 @@ module Desi
       @legacy_release ||= Desi::LocalInstall.current_release_is_pre_one_zero?
     end
 
+    def check_java_presence!
+      Cocaine::CommandLine.new("which java").run
+    rescue Cocaine::ExitStatusError
+      warn "Could not find 'java' executable in your path. Are you sure it is installed on your system?"
+      exit 1
+    end
   end
 end
