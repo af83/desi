@@ -54,6 +54,11 @@ module Desi
                   Desi::Upstream.new.latest_release
                 end
 
+      unless release
+        warn "Could not find release '#{version_or_full_name}'"
+        exit 1
+      end
+
       if Desi::LocalInstall.new.releases.any? {|r| r == release }
         puts " * release #{release.version} seems to be already installed" if options[:verbose]
         return
