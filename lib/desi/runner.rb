@@ -70,6 +70,27 @@ module Desi
       puts " * #{release} installed" if Desi::Installer.new(package).install! && options[:verbose]
     end
 
+
+    desc "Show or set the current version"
+    verbosity_option
+    def current(version = nil, options = {})
+      set_verbosity!(options)
+      local_install = Desi::LocalInstall.new
+
+      if version
+        dir = local_install.releases.find {|d| d.with_version?(version) }
+
+        unless dir
+          warn "Cannot find locale install of version #{version}"
+          exit 1
+        end
+        local_install.update_current_to(dir)
+        puts "Set current version to #{dir.version} (#{dir.to_path})" if options[:verbose]
+      else
+        puts local_install.current_release
+      end
+    end
+
     desc "Start Elastic Search (do nothing if already active)"
     verbosity_option
     start_options

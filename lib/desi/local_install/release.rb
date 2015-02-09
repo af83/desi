@@ -30,6 +30,10 @@ module Desi
         @version ||= Semantic::Version.new(version_number)
       end
 
+      def with_version?(other_version)
+        version == Semantic::Version.new(other_version)
+      end
+
       def to_s
         current_mark = current? ? '*' : '-'
 
@@ -46,6 +50,10 @@ module Desi
 
       def pre_one_zero?
         @pre_one_zero ||= (version < Semantic::Version.new("1.0.0-alpha"))
+      end
+
+      def to_path
+        @dirname.to_path
       end
 
       private
