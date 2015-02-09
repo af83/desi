@@ -132,6 +132,31 @@ module Desi
       end
     end
 
+    # Close all indices matching the specified pattern
+    #
+    # @param   [#to_s]          pattern  Regexp pattern used to restrict the selection
+    # @return  [void]
+    #
+    # @note No confirmation is needed, so beware!
+    #
+    # @note This method will also output its result on STDOUT if +@verbose+ is
+    #       true
+    #
+    # @example Close all indices whose name begins with "test"
+    #    Desi::IndexManager.new.close!('^test') #=> nil
+    #
+    # @api  public
+    def close!(pattern)
+      warn "You must provide a pattern" and exit if pattern.nil?
+
+      @outputter.puts "The following indices from host #{@host} are now closed" if @verbose
+
+      indices(Regexp.new(pattern)).each do |index|
+        @client.post("/#{index}/_close")
+        @outputter.puts " * #{index.inspect}" if @verbose
+      end
+    end
+
     # Empty (remove all records) from indices matching the specified pattern
     #
     # @param   [#to_s]          pattern  Regexp pattern used to restrict the selection

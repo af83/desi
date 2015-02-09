@@ -38,6 +38,17 @@ module Desi
       end
     end
 
+    def post(uri)
+      response = @http.request(Net::HTTP::Post.new(uri))
+
+      case response
+        when Net::HTTPSuccess
+          response
+        else
+          raise response.error!
+      end
+    end
+
     def delete(uri)
       response = @http.request(Net::HTTP::Delete.new(uri))
 

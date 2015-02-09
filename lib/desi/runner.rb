@@ -126,6 +126,7 @@ module Desi
     verbosity_option
     option "--host", type: :string, desc: "Elastic Search cluster URL", default: Desi.configuration.server
     option "--delete", type: :boolean, desc: "Delete the specified indices (You've been warned!)", default: false
+    option "--close", type: :boolean, desc: "Close specified indices", default: false
     option "--empty", type: :boolean, desc:  "Delete all documents from the specified indices", default: false
     def indices(pattern = nil, options = {})
       set_verbosity!(options)
@@ -133,6 +134,8 @@ module Desi
 
       if options[:delete]
         index_manager.delete!(pattern)
+      elsif options[:close]
+        index_manager.close!(pattern)
       elsif options[:empty]
         index_manager.empty!(pattern)
       else
