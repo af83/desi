@@ -31,7 +31,7 @@ It can be used both as a command-line tool and as a library.
 
     $ desi indices "^foo"          # List all indices whose name match /^foo/
     $ desi indices "^foo" --delete # Delete all matching indices
-    $ desi indices "^foo" --close  # Delete all matching indices
+    $ desi indices "^foo" --close  # Close all matching indices
     $ desi indices "bar$" --empty  # Remove all records from the matching indices
 
 ## Examples (command-line and Ruby)
