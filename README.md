@@ -188,8 +188,6 @@ Or install it yourself as:
 
   * add more tests
 
-  * `desi upgrade` (Upgrade to latest version and migrate data)
-  * `desi switch VERSION` (Switch currently active ES version to VERSION)
   * plugin management ? (list, install, remove ES plugins)
 
 ## Contributing
