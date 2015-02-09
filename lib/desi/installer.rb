@@ -15,7 +15,7 @@ module Desi
     def install!
       extract! unless extracted?
       install_config_file
-      update_symlink!
+      update_symlinks!
       remove_archive!
     end
 
@@ -32,8 +32,10 @@ module Desi
     end
 
 
-    def update_symlink!
-      @local_install.update_current_to(release_dir)
+    def update_symlinks!
+      @local_install.
+        update_current_to(release_dir).
+        add_data_symlink(release_dir)
     end
 
     def config_file

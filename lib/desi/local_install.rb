@@ -21,7 +21,7 @@ module Desi
     end
 
     def current_dir
-      @workdir.join('current')
+      @current_dir ||= @workdir.join('current')
     end
 
     def update_current_to(release_dir)
@@ -30,6 +30,15 @@ module Desi
       puts " * Updating #{current_dir} symlink" if @verbose
       FileUtils.remove(current_dir) if current_dir.exist?
       FileUtils.ln_sf(release_dir, current_dir)
+      self
+    end
+
+    def add_data_symlink(release_dir)
+      current_dir_must_be_nil_or_symlink!
+      symlink = current_dir.join('data')
+      puts " * Updating data dir symlink (#{symlink} -> #{data_dir})" if @verbose
+      FileUtils.ln_sf(data_dir, symlink)
+      self
     end
 
     def create!
@@ -46,6 +55,10 @@ module Desi
 
     def to_path
       @workdir.to_s
+    end
+
+    def data_dir
+      @data_dir ||= @workdir.join('data')
     end
 
     def to_s
