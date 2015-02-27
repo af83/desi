@@ -36,6 +36,7 @@ module Desi
     def add_data_symlink(release_dir)
       current_dir_must_be_nil_or_symlink!
       symlink = current_dir.join('data')
+      FileUtils.mkdir_p data_dir
       puts " * Updating data dir symlink (#{symlink} -> #{data_dir})" if @verbose
       FileUtils.ln_sf(data_dir, symlink)
       self
