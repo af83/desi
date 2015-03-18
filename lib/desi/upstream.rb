@@ -60,7 +60,7 @@ module Desi
     private
 
     def fetch_tags
-      JSON.parse @client.get('/repos/elasticsearch/elasticsearch/tags').body
+      JSON.parse @client.get('/repos/elastic/elasticsearch/tags').body
     end
 
   end
