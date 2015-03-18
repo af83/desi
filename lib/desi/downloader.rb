@@ -23,7 +23,7 @@ module Desi
 
       puts "  * fetching release #{version} from #{@host + path}" if @verbose
 
-      File.open(destination_name, 'w') {|f| f << @client.get(path).body }
+      @client.get_file(path, destination_name)
 
       destination_name
     end

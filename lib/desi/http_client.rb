@@ -60,6 +60,20 @@ module Desi
       end
     end
 
+    def get_file(path, destination)
+      Net::HTTP.start(@uri.host, @uri.port, use_ssl: @uri.scheme == 'https') do |http|
+        request = Net::HTTP::Get.new path
+
+        http.request request do |response|
+          open destination, 'w' do |io|
+            response.read_body do |chunk|
+              io.write chunk
+            end
+          end
+        end
+      end
+    end
+
     private
 
     def to_uri(host_string)
